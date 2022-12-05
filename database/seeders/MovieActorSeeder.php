@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,8 @@ class MovieActorSeeder extends Seeder
         DB::table('movie_actors')->insert([[
             'movie_id' => 1,
             'actor_id' => 1,
-            'character_name' => 'Peter Parker'
+            'character_name' => 'Peter Parker',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ]]);
     }
 }

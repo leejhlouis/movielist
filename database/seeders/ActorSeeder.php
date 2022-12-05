@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,8 @@ class ActorSeeder extends Seeder
             'dob' => '2002-01-21',
             'place_of_birth' => 'California',
             'image_url' => 'th.jpeg',
-            'popularity' => 1000
+            'popularity' => 1000,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ]
         ]);
 

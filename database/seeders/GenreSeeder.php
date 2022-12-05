@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,22 +16,28 @@ class GenreSeeder extends Seeder
     public function run()
     {
         DB::table('genres')->insert([[
-            'name' => 'Action'
+            'name' => 'Action',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'name' => 'Comedy'
+            'name' => 'Adventure',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'name' => 'Drama'
+            'name' => 'Drama',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'name' => 'Romance'
+            'name' => 'Romance',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'name' => 'Thriller'
+            'name' => 'Thriller',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'name' => 'Horror'
+            'name' => 'Horror',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         ]);
     }

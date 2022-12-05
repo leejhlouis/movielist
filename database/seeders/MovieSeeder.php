@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,8 @@ class MovieSeeder extends Seeder
             'director' => 'Jon Watts',
             'release_date' => '2021-12-17',
             'thumbnail' => 'movie001-thumbnail.jpeg',
-            'background' => 'movie001-background.jpeg'
+            'background' => 'movie001-background.jpeg',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ]]);
     }
 }
