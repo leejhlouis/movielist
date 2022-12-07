@@ -10,7 +10,7 @@ class MovieActor extends Model
     use HasFactory;
 
     public function movie(){
-        return $this->belongsTo(Movies::class);
+        return $this->belongsTo(Movie::class);
     }
 
     public function actor(){
