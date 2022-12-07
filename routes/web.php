@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActorController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\WatchlistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,4 @@ Route::get('/', [MovieController::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'details']);
 Route::get('/actors', [ActorController::class, 'index']);
 Route::get('/actors/{id}', [ActorController::class, 'details']);
+Route::get('/watchlist', [WatchlistController::class, 'index']);
