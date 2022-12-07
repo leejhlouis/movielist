@@ -15,4 +15,11 @@ class MovieController extends Controller
 
         return view('home', ['selectMovies' => $selectMovies, 'movies' => $movies, 'genres' => $genres]);
     }
+
+    public function details($id){
+        $movies = Movie::all()->take(5);
+        $movie = Movie::find($id);
+
+        return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
+    }
 }

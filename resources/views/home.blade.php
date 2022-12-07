@@ -35,6 +35,10 @@
         margin-right: 1rem;
         cursor: pointer;
     }
+
+    #movieCard:hover{
+        opacity: 0.75;
+    }
 </style>
 @endsection
 
@@ -55,8 +59,7 @@
                             <p class="mb-2 text-shadow"> @if (!$loop->first), @endif{{ $movie_genre->genre->name }}</p>
                         @endforeach
                         <p class="ps-3 mb-2 text-shadow">|</p>
-                        <p class="ps-3 mb-2 text-shadow">{{ date('Y', strtotime($movie->release_date))
-                        }}</p>
+                        <p class="ps-3 mb-2 text-shadow">{{ date('Y', strtotime($movie->release_date)) }}</p>
                     </div>
                     <h1 class="mb-3 text-shadow fw-bold">{{ $movie->title }}</h1>
                     <p class="text-shadow">{{ $movie->description }}</p>
@@ -87,13 +90,13 @@
         </h2>
         <div class="row row-cols-1 row-cols-md-5 g-4">
             @foreach ($movies as $movie)
-                <div class="card bg-dark border-0">
+                <a id="movieCard" href="/movies/{{ $movie->id }}" class="card bg-dark border-0 text-decoration-none">
                     <img src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
                     <div class="card-body px-0">
-                        <h3 class="h6 overflow-hidden w-100 dot-overflow">{{ $movie->title }}</h3>
-                        <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
+                        <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
+                        <p class="text-muted ">{{ date('Y', strtotime($movie->release_date)) }}</p>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </div>
@@ -136,15 +139,17 @@
 
         <div class="row row-cols-1 row-cols-md-5 g-4">
             @foreach ($movies as $movie)
-                <div class="card bg-dark border-0">
-                    <img src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                <div class="card bg-dark border-0 text-decoration-none">
+                    <a id="movieCard" href="/movies/{{ $movie->id }}">
+                        <img class="w-100" src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                    </a>
                     <div class="pt-2 d-flex justify-content-between">
                         <div style="width: 85%;">
-                            <h3 class="h6 overflow-hidden w-100 dot-overflow">{{ $movie->title }}</h3>
+                            <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
                             <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
                         </div>
                         <div>
-                            <i class="bi bi-plus text-danger fs-4" style="cursor: pointer;"></i>
+                            <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
                         </div>
                     </div>
                 </div>
