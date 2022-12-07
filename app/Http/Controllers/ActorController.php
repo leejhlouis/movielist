@@ -11,4 +11,9 @@ class ActorController extends Controller
         $actors = Actor::all();
         return view('actors.index', ["actors" => $actors]);
     }
+
+    public function details($id){
+        $actor = Actor::find($id);
+        return view('actors.details', ["actor" => $actor]);
+    }
 }

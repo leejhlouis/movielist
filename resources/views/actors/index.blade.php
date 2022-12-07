@@ -31,8 +31,8 @@
         <div class="row row-cols-1 row-cols-md-5 g-4">
             @foreach ($actors as $actor)
                 <a href="/actors/{{ $actor->id }}" class="card bg-dark border-0 text-decoration-none text-white actor-card">
-                    <div class="w-85 h-50 px-2 pt-2 bg-gray overflow-hidden">
-                        <img class="w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg" alt="">
+                    <div class="w-100 bg-gray overflow-hidden">
+                        <img class="w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg" alt="" style="height: 180px; object-fit: cover;">
                     </div>
                     <div class="bg-gray p-3 rounded-bottom rounded-5">
                         <div>

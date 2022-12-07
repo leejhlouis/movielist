@@ -73,14 +73,14 @@
     </div>
 
     <div class="container my-5">
-        <div>
+        <div class="mb-5">
             <h2 class="h3 border-start border-danger border-4 ps-3 mb-4">Cast</h2>
 
             <div class="row row-cols-1 row-cols-md-5 g-4">
                 @foreach ($movie->movie_actors as $movie_actor)
-                    <a href="/actors/{{ $movie_actor->actor->id }}" class="card bg-dark border-0 text-decoration-none text-white actor-card">
-                        <div class="w-100 h-50 overflow-hidden">
-                            <img class="w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg" alt="">
+                    <a href="/actors/{{ $movie_actor->actor->id }}" class="card actor-card bg-dark border-0 text-decoration-none text-white">
+                        <div class="w-100 bg-gray overflow-hidden">
+                            <img class="w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg" alt="" style="height: 180px; object-fit: cover;">
                         </div>
                         <div class="bg-danger p-3 rounded-bottom rounded-5">
                             <div>
