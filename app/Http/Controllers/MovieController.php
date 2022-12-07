@@ -11,13 +11,13 @@ class MovieController extends Controller
     public function index(){
         $movies = Movie::all();
         $genres = Genre::all();
-        $selectMovies = $movies->take(3);
+        $selectMovies = Movie::inRandomOrder()->limit(3)->get();
 
         return view('home', ['selectMovies' => $selectMovies, 'movies' => $movies, 'genres' => $genres]);
     }
 
     public function details($id){
-        $movies = Movie::all()->take(5);
+        $movies = Movie::all()->limit(5);
         $movie = Movie::find($id);
 
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
