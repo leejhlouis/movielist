@@ -11,7 +11,7 @@
 @section('content')
     <div class="container my-5 d-flex gap-5">
         <div class="w-25" style="height: 300px">
-            <img class="w-100 h-100 border-white border rounded-5" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg" alt="" style="object-fit: cover;">
+            <img class="w-100 h-100 border-white border rounded-5" src="{{ url('storage/actors/'.$actor->image_url) }}" alt="" style="object-fit: cover;">
 
             <div class="mt-4">
                 <p class="h4 mb-4">Personal info</p>
@@ -47,7 +47,7 @@
             <div class="row row-cols-1 row-cols-md-4 g-4">
                 @foreach ($actor->movie_actors as $movie_actor)
                     <a id="movieCard" href="/movies/{{ $movie_actor->movie->id }}" class="card bg-dark border-0 text-decoration-none">
-                        <img src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                        <img src="{{ url('/storage/movies/thumbnail/'.$movie_actor->movie->thumbnail) }}" alt="">
                         <div class="card-body px-0">
                             <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie_actor->movie->title }}</h3>
                             <p class="text-muted ">{{ date('Y', strtotime($movie_actor->movie->release_date)) }}</p>

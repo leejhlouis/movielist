@@ -5,6 +5,7 @@
     .carousel-item img{
         height: 100vh;
         object-fit: cover;
+        filter: brightness(60%);
     }
 
     .carousel-caption{
@@ -63,8 +64,8 @@
     </div>
     <div class="carousel-inner">
         @foreach ($featuredMovies as $movie)
-            <div class="carousel-item @if ($loop->first) active @endif">
-                <img src="https://variety.com/wp-content/uploads/2021/12/OSX1440_comp_v005_300DPI.1003-copy.jpg?w=681&h=383&crop=1" class="d-block w-100" alt="...">
+            <div class="carousel-item backdrop @if ($loop->first) active @endif">
+                <img src="{{ url('/storage/movies/background/'.$movie->background) }}" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <div class="d-flex">
                         @foreach ($movie->movie_genres as $movie_genre)
@@ -103,7 +104,7 @@
         <div class="row row-cols-1 row-cols-md-5 g-4">
             @foreach ($popularMovies as $movie)
                 <a id="movieCard" href="/movies/{{ $movie->id }}" class="card bg-dark border-0 text-decoration-none">
-                    <img src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                    <img src="{{ url('/storage/movies/thumbnail/'.$movie->thumbnail) }}" alt="">
                     <div class="card-body px-0">
                         <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
                         <p class="text-muted ">{{ date('Y', strtotime($movie->release_date)) }}</p>
@@ -170,7 +171,7 @@
             @forelse ($movies as $movie)
                 <div class="card bg-dark border-0 text-decoration-none">
                     <a id="movieCard" href="/movies/{{ $movie->id }}">
-                        <img class="w-100" src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                        <img class="w-100" src="{{ url('/storage/movies/thumbnail/'.$movie->thumbnail) }}" alt="">
                     </a>
                     <div class="pt-2 d-flex justify-content-between">
                         <div style="width: 85%;">

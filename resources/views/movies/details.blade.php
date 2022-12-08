@@ -5,14 +5,14 @@
         .top-section{
             height: 100vh;
             width: 100%;
-            background: url('https://variety.com/wp-content/uploads/2021/12/OSX1440_comp_v005_300DPI.1003-copy.jpg?w=681&h=383&crop=1') no-repeat center;
+            background: url({{ url('/storage/movies/background/'.$movie->background) }}) no-repeat center;
             background-size: cover;
         }
 
         .backdrop{
             width: 100%;
             height: 100vh;
-            backdrop-filter: brightness(60%);
+            backdrop-filter: brightness(36%);
         }
 
         .text-shadow{
@@ -42,7 +42,7 @@
         <div class="backdrop d-flex justify-content-center align-items-center">
             <div class="container d-flex gap-5">
                 <div class="w-25">
-                    <img class="w-100 shadow-lg" src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                    <img class="w-100 shadow-lg" src="{{ url('/storage/movies/thumbnail/'.$movie->thumbnail) }}" alt="">
                 </div>
                 <div class="w-75 ps-3">
                     <div class="d-flex justify-content-between align-items-baseline">
@@ -80,7 +80,7 @@
                 @foreach ($movie->movie_actors as $movie_actor)
                     <a href="/actors/{{ $movie_actor->actor->id }}" class="card actor-card bg-dark border-0 text-decoration-none text-white">
                         <div class="w-100 bg-gray overflow-hidden">
-                            <img class="w-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg" alt="" style="height: 180px; object-fit: cover;">
+                            <img class="w-100" src="{{ url('storage/actors/'.$movie_actor->actor->image_url) }}" alt="" style="height: 180px; object-fit: cover;">
                         </div>
                         <div class="bg-danger p-3 rounded-bottom rounded-5">
                             <div>
@@ -101,7 +101,7 @@
                 @foreach ($movies as $movie)
                     <div class="card bg-dark border-0 text-decoration-none">
                         <a id="movieCard" href="/movies/{{ $movie->id }}">
-                            <img class="w-100" src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
+                            <img class="w-100" src="{{ url('/storage/movies/thumbnail/'.$movie->thumbnail) }}" }}" alt="">
                         </a>
                         <div class="pt-2 d-flex justify-content-between">
                             <div style="width: 85%;">
