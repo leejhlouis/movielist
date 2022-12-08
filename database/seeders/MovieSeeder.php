@@ -34,19 +34,19 @@ class MovieSeeder extends Seeder
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'title' => 'The Avengers',
-            'description' => "When Thor's evil brother, Loki (Tom Hiddleston), gains access to the unlimited power of the energy cube called the Tesseract, Nick Fury (Samuel L. Jackson), director of S.H.I.E.L.D., initiates a superhero recruitment effort to defeat the unprecedented threat to Earth. Joining Fury's \"dream team\" are Iron Man (Robert Downey Jr.), Captain America (Chris Evans), the Hulk (Mark Ruffalo), Thor (Chris Hemsworth), the Black Widow (Scarlett Johansson) and Hawkeye (Jeremy Renner).",
-            'director' => 'Joss Whedon',
-            'release_date' => '2012-05-04',
+            'title' => 'Avengers: Endgame',
+            'description' => "Adrift in space with no food or water, Tony Stark sends a message to Pepper Potts as his oxygen supply starts to dwindle. Meanwhile, the remaining Avengers -- Thor, Black Widow, Captain America and Bruce Banner -- must figure out a way to bring back their vanquished allies for an epic showdown with Thanos -- the evil demigod who decimated the planet and the universe.",
+            'director' => 'Anthony Russo, Joe Russo',
+            'release_date' => '2019-04-26',
             'thumbnail' => 'movie003-thumbnail.jpeg',
             'background' => 'movie003-background.jpeg',
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
-            'title' => 'Joker',
-            'description' => "Forever alone in a crowd, failed comedian Arthur Fleck seeks connection as he walks the streets of Gotham City. Arthur wears two masks -- the one he paints for his day job as a clown, and the guise he projects in a futile attempt to feel like he's part of the world around him. Isolated, bullied and disregarded by society, Fleck begins a slow descent into madness as he transforms into the criminal mastermind known as the Joker.",
-            'director' => 'Todd Phillips',
-            'release_date' => '2019-10-04',
+            'title' => 'Doctor Strange',
+            'description' => "Dr. Stephen Strange's (Benedict Cumberbatch) life changes after a car accident robs him of the use of his hands. When traditional medicine fails him, he looks for healing, and hope, in a mysterious enclave. He quickly learns that the enclave is at the front line of a battle against unseen dark forces bent on destroying reality. Before long, Strange is forced to choose between his life of fortune and status or leave it all behind to defend the world as the most powerful sorcerer in existence.",
+            'director' => 'Scott Derrickson',
+            'release_date' => '2016-10-26',
             'thumbnail' => 'movie004-thumbnail.jpeg',
             'background' => 'movie004-background.jpeg',
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')

@@ -24,6 +24,46 @@ class MovieGenreSeeder extends Seeder
             'movie_id' => 1,
             'genre_id' => 2,
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 2,
+            'genre_id' => 1,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 2,
+            'genre_id' => 2,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 3,
+            'genre_id' => 1,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 3,
+            'genre_id' => 3,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 4,
+            'genre_id' => 1,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 4,
+            'genre_id' => 2,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 5,
+            'genre_id' => 6,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
+            'movie_id' => 5,
+            'genre_id' => 4,
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ]
         ]);
     }

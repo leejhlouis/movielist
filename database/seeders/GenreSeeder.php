@@ -24,6 +24,10 @@ class GenreSeeder extends Seeder
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
+            'name' => 'Sci-fi',
+            'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
+        ],
+        [
             'name' => 'Drama',
             'created_at' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
