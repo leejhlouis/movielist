@@ -122,7 +122,7 @@
             </h2>
             <div>
                 <form class="d-flex" action="{{ url('') }}">
-                    <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search movie..." aria-label="Search movie...">
+                    <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search movie..." aria-label="Search movie">
                     <button class="btn btn-outline-danger" type="submit">Search</button>
                   </form>
             </div>

@@ -22,9 +22,9 @@
         <div class="d-flex justify-content-between mb-4">
             <h1 class="h2 text-danger">Actors</h1>
             <div>
-                <form class="d-flex">
-                    <input class="form-control me-2 bg-gray border-0" type="search" placeholder="Search actors..." aria-label="Search">
-                  </form>
+                <form class="d-flex" action="{{ url('/actors') }}">
+                    <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search actors..." aria-label="Search actors">
+                </form>
             </div>
         </div>
 

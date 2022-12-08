@@ -7,8 +7,14 @@ use Illuminate\Http\Request;
 
 class ActorController extends Controller
 {
-    public function index(){
-        $actors = Actor::all();
+    public function index(Request $request){
+        if (isset($request->search)){
+            $actors = Actor::where('name', 'like', "%$request->search%")->get();
+        }
+        else {
+            $actors = Actor::all();
+        }
+
         return view('actors.index', ["actors" => $actors]);
     }
 
