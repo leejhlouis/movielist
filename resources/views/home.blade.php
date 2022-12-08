@@ -31,13 +31,25 @@
     .pill{
         border-radius: 1rem;
         background: #3f3f3f;
-        padding: 0 1.25rem;
-        margin-right: 1rem;
         cursor: pointer;
     }
 
     #movieCard:hover{
         opacity: 0.75;
+    }
+
+    input[type="radio"]{
+        cursor: pointer;
+    }
+
+    input[type="radio"]:checked + .pill{
+        border: 2px solid var(--bs-danger);
+    }
+
+    .appearance-none{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
     }
 </style>
 @endsection
@@ -50,7 +62,7 @@
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-        @foreach ($selectMovies as $movie)
+        @foreach ($featuredMovies as $movie)
             <div class="carousel-item @if ($loop->first) active @endif">
                 <img src="https://variety.com/wp-content/uploads/2021/12/OSX1440_comp_v005_300DPI.1003-copy.jpg?w=681&h=383&crop=1" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
@@ -89,7 +101,7 @@
             <p class="mb-0 h3">Popular</p>
         </h2>
         <div class="row row-cols-1 row-cols-md-5 g-4">
-            @foreach ($movies as $movie)
+            @foreach ($popularMovies as $movie)
                 <a id="movieCard" href="/movies/{{ $movie->id }}" class="card bg-dark border-0 text-decoration-none">
                     <img src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
                     <div class="card-body px-0">
@@ -108,27 +120,43 @@
                 <p class="mb-0 h3">Show</p>
             </h2>
             <div>
-                <form class="d-flex">
-                    <input class="form-control me-2 bg-gray border-0" type="search" placeholder="Search movie..." aria-label="Search">
-                    {{-- <button class="btn btn-outline-success" type="submit">Search</button> --}}
+                <form class="d-flex" action="{{ url('') }}">
+                    <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search movie..." aria-label="Search movie...">
+                    <button class="btn btn-outline-danger" type="submit">Search</button>
                   </form>
             </div>
         </div>
         
-        <ul class="d-flex list-unstyled w-100 flex-wrap mb-4">
-            @foreach ($genres as $genre)
-                <li class="d-inline pill mt-3">{{ $genre->name }}</li>
-            @endforeach
-        </ul>
+        <form id="customizeListForm" class="mt-3" action="{{ url('/') }}">
+            <fieldset>
+                <ul class="d-flex list-unstyled w-100 flex-wrap mb-4 gap-3 align-items-center">
+                    @foreach ($genres as $genre)
+                        <li class="d-inline position-relative">
+                            <input type="radio" id="genre" name="genre" value="{{ $genre->id }}" class="appearance-none position-absolute w-100 h-100 top-0 left-0">
+                            <label for="genre" class="pill px-4">{{ $genre->name }}</label>
+                        </li>
+                    @endforeach
+                </ul>
 
-        <div class="d-flex mb-4">
-            <p class="me-4">Sort by</p>
-            <ul class="d-flex list-unstyled">
-                <li class="d-inline pill">Latest</li>
-                <li class="d-inline pill">A-Z</li>
-                <li class="d-inline pill">Z-A</li>
-            </ul>
-        </div>
+                <div class="d-flex mb-4">
+                    <p class="me-4" style="white-space: nowrap;">Sort by</p>
+                    <ul class="d-flex list-unstyled w-100 flex-wrap mb-4 gap-3 align-items-center">
+                        <li class="d-inline position-relative">
+                            <input type="radio" id="sortby" name="sortby" value="latest" class="appearance-none position-absolute w-100 h-100 top-0 left-0">
+                            <label for="genre" class="pill px-4">Latest</label>
+                        </li>
+                        <li class="d-inline position-relative">
+                            <input type="radio" id="sortby" name="sortby" value="asc" class="appearance-none position-absolute w-100 h-100 top-0 left-0">
+                            <label for="genre" class="pill px-4">A-Z</label>
+                        </li>
+                        <li class="d-inline position-relative">
+                            <input type="radio" id="sortby" name="sortby" value="desc" class="appearance-none position-absolute w-100 h-100 top-0 left-0">
+                            <label for="genre" class="pill px-4">Z-A</label>
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+        </form>
 
         <div class="d-flex justify-content-end mb-4">
             <button type="button" class="btn btn-danger d-flex">
@@ -138,7 +166,8 @@
         </div>
 
         <div class="row row-cols-1 row-cols-md-5 g-4">
-            @foreach ($movies as $movie)
+
+            @forelse ($movies as $movie)
                 <div class="card bg-dark border-0 text-decoration-none">
                     <a id="movieCard" href="/movies/{{ $movie->id }}">
                         <img class="w-100" src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
@@ -153,7 +182,11 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="alert alert-dark w-100 text-center">
+                    No movies found.
+                </div>    
+            @endforelse
         </div>
     </div>
 </div>
@@ -165,6 +198,11 @@
 
 @section('script')
 <script>
-
+    document.querySelectorAll('input[type="radio"]').forEach(element =>{
+        element.addEventListener("click", ()=>{
+            console.log('ff');
+            document.getElementById('customizeListForm').submit();
+        });
+    })
 </script>
 @endsection
