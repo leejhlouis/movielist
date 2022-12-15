@@ -12,7 +12,7 @@
         }
 
         .movieSpan{
-            color: red;
+            color: var(--bs-danger);
         }
 
         footer{
