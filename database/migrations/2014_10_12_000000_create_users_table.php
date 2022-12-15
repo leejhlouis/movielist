@@ -23,9 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->dateTime('dob')->nullable();
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->boolean('is_admin')->default(0);
-            $table->string('img_url', 500);
+            $table->string('img_url', 500)->nullable();
             $table->timestamp('date_joined')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
