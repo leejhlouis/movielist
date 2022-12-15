@@ -21,7 +21,7 @@ class MovieController extends Controller
         else if (isset($request->genre)){
             $movies = Movie::join('movie_genres', 'movie_genres.movie_id', '=', 'movies.id')->where('movie_genres.genre_id', '=', $request->genre)->get();
         }
-        else if (isset($request->sortby) && $request->sortby != "latest"){
+        else if (isset($request->sortby) && ($request->sortby == "asc" || $request->sortby == "desc")){
             $movies = Movie::orderBy('title', $request->sortby)->get();
         }
         else if (isset($request->sortby) && $request->sortby == "latest"){
