@@ -33,7 +33,7 @@
             <label class="input-group-text border-0 bg-dark text-white" for="inputGroupSelect01">
                 <i class="bi bi-funnel-fill"></i>
             </label>
-            <select class="form-select w-25 bg-dark text-white border-0" id="inputGroupSelect01">
+            <select class="px-2 bg-dark text-white rounded" id="inputGroupSelect01">
               <option selected>All</option>
               <option value="Planned">Planned</option>
               <option value="Watching">Watching</option>
@@ -58,7 +58,7 @@
                     <td>Spider-Man: No Way Home</td>
                     <td class="text-success fw-bold">Planning</td>
                     <td style="width: 15%;">
-                        <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button">Change Status</a>
+                        <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button" data-bs-toggle="modal" data-bs-target="#statusModal">Change Status</a>
                     </td>
                 </tr>
               </tbody>
@@ -85,6 +85,29 @@
               </nav>
         </div>
 
+    </div>
+
+    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+          <div class="modal-header border-0">
+            <h1 class="modal-title fs-5" id="modalLabel">Change status</h1>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <select class="w-100 p-2 bg-dark text-white rounded" id="inputGroupSelect01">
+              <option selected>All</option>
+              <option value="Planned">Planned</option>
+              <option value="Watching">Watching</option>
+              <option value="Finished">Finished</option>
+            </select>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger">Save changes</button>
+          </div>
+        </div>
+      </div>
     </div>
 
 @endsection
