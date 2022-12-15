@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <title>MovieList</title>
     <style>
+        nav{
+            height: 64px;
+        }
+
         .movieSpan{
             color: red;
         }
 
         footer{
             min-height: 10vh;
-            padding: 3em;
+            padding: 2em;
             margin-top: auto;
             text-align: center;
         }
@@ -25,8 +29,8 @@
   <body class="bg-dark text-light">
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{url('/')}}"><span class="movieSpan">Movie</span>List</a>
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="{{url('/')}}"><span class="movieSpan">Movie</span>List</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -56,12 +60,13 @@
     {{-- Footer --}}
     <footer>
         <hr>
-        <h4>
+        <h4 class="fw-bold">
             <span class="movieSpan">Movie</span>List
         </h4>
         <p>
-            <span class="movieSpan">Movie</span>List is a Website that contains pf movie
-            <br>
+            <strong class="fw-bold"><span class="movieSpan">Movie</span>List</strong> is a Website that contains list of movies.
+        </p>
+        <p class="mb-0">
             Copyright &copy; 2022 <span class="movieSpan">Movie</span>List All Rights Reserved
         </p>
     </footer>

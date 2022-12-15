@@ -3,7 +3,7 @@
 @section('style')
 <style>
     .carousel-item img{
-        height: 100vh;
+        height: calc(100vh - 64px);
         object-fit: cover;
         filter: brightness(60%);
     }
@@ -66,7 +66,7 @@
         @foreach ($featuredMovies as $movie)
             <div class="carousel-item backdrop @if ($loop->first) active @endif">
                 <img src="{{ url('/storage/movies/background/'.$movie->background) }}" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="carousel-caption">
                     <div class="d-flex">
                         @foreach ($movie->movie_genres as $movie_genre)
                             <p class="mb-2 text-shadow"> @if (!$loop->first), @endif{{ $movie_genre->genre->name }}</p>
@@ -75,7 +75,7 @@
                         <p class="ps-3 mb-2 text-shadow">{{ date('Y', strtotime($movie->release_date)) }}</p>
                     </div>
                     <h1 class="mb-3 text-shadow fw-bold">{{ $movie->title }}</h1>
-                    <p class="text-shadow">{{ $movie->description }}</p>
+                    <p class="text-shadow d-none d-md-block">{{ $movie->description }}</p>
                     
                     <button type="button" class="btn btn-danger d-flex px-4">
                         <i class="bi bi-plus me-2"></i>
