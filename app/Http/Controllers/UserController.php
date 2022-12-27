@@ -49,9 +49,9 @@ class UserController extends Controller
         $email = $request->email;
         $pass = $request->password;
 
-        if(Auth::attempt(['email' => $email, 'password' => $pass])){
+        if (Auth::attempt(['email' => $email, 'password' => $pass], true)){
             return redirect('/');
-        }else{
+        } else{
             return back();
         }
 

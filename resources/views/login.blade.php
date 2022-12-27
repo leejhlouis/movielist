@@ -31,6 +31,7 @@
         <div class="isi">
             <h2>Hello, Welcome back to <span class="movieSpan">Movie</span>List</h2>
             <form action={{url('/login')}} method="POST" enctype="multipart/form-data">
+                @csrf
                 {{-- pengen fieldsetnya jadi item tapi nanti aja dah --}}
                 <div class="mb-3">
                     <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp">

@@ -48,8 +48,13 @@
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <button type="button" class="btn btn-primary me-2">Register</button>
-                    <button class="btn btn-outline-primary" type="submit">Log In</button>
+                    @auth()
+                        {{ Auth::user()->username }}
+                        {{-- dropdown --}}
+                    @else
+                        <a href="{{url('/register')}}" class="btn btn-outline-primary me-2">Register</a>
+                        <a href="{{url('/login')}}" class="btn btn-primary" type="submit">Log In</a>
+                    @endauth
                 </form>
             </div>
         </div>
