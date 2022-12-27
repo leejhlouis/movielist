@@ -60,7 +60,7 @@
             <span class="movieSpan">Movie</span>List
         </h4>
         <p>
-            <span class="movieSpan">Movie</span>List is a Website that contains pf movie
+            <span class="movieSpan">Movie</span>List is a Website that contains of movie
             <br>
             Copyright &copy; 2022 <span class="movieSpan">Movie</span>List All Rights Reserved
         </p>
