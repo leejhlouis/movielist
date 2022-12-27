@@ -47,15 +47,21 @@
                         <a class="nav-link" href="{{url('/actors')}}">Actors</a>
                     </li>
                 </ul>
-                <form class="d-flex">
+                <div class="navbar-nav d-flex">
                     @auth()
-                        {{ Auth::user()->username }}
-                        {{-- dropdown --}}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ Auth::user()->username }}
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="{{url('/logout')}}">Logout</a></li>
+                            </ul>
+                        </div>
                     @else
                         <a href="{{url('/register')}}" class="btn btn-outline-primary me-2">Register</a>
                         <a href="{{url('/login')}}" class="btn btn-primary" type="submit">Log In</a>
                     @endauth
-                </form>
+                </div>
             </div>
         </div>
     </nav>

@@ -18,10 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [MovieController::class, 'index']);
+
 Route::get('/login', [UserController::class, 'login']);
 Route::post('/login', [UserController::class, 'newLogin']);
 Route::get('/register', [UserController::class, 'regis']);
 Route::post('/register', [UserController::class, 'newUser']);
+Route::get('/logout', [UserController::class, 'logout']);
+
 Route::get('/movies/{id}', [MovieController::class, 'details']);
 Route::get('/insert', [MovieController::class, 'insert']);
 Route::get('/actors', [ActorController::class, 'index']);
