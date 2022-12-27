@@ -3,7 +3,7 @@
 @section('style')
     <style>
         .top-section{
-            height: 100vh;
+            min-height: calc(100vh - 64px);
             width: 100%;
             background: url({{ url('/storage/movies/background/'.$movie->background) }}) no-repeat center;
             background-size: cover;
@@ -46,7 +46,7 @@
                 </div>
                 <div class="w-75 ps-3">
                     <div class="d-flex justify-content-between align-items-baseline">
-                        <h1 class="text-shadow">{{ $movie->title }}</h1>
+                        <h1 class="text-shadow fw-bold">{{ $movie->title }}</h1>
                         <div class="d-flex">
                             <i class="bi bi-pencil-square me-3 fs-5"></i>
                             <i class="bi bi-trash fs-5"></i>

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    //
     public function login(){
         return view('login');
     }
@@ -35,12 +34,14 @@ class UserController extends Controller
             'conPassword' => 'required|same:password|min:6'
         ]);
 
-        DB::table('users')->insert([[
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => $request->password,
-            'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
-        ]]);
+        $user = new User();
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->date_joined = Carbon::now()->setTimezone('Asia/Jakarta');
+        $user->save();
+
+        Auth::login($user);
 
         return redirect('/');
     }
@@ -49,9 +50,9 @@ class UserController extends Controller
         $email = $request->email;
         $pass = $request->password;
 
-        if(Auth::attempt(['email' => $email, 'password' => $pass])){
+        if (Auth::attempt(['email' => $email, 'password' => $pass], true)){
             return redirect('/');
-        }else{
+        } else{
             return back();
         }
 
@@ -65,5 +66,10 @@ class UserController extends Controller
         }else{
             Cookie::queue('cookie', $credential, -1);
         }
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
     }
 }

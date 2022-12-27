@@ -31,7 +31,7 @@
         </div>
         <div class="w-75">
             <div class="d-flex justify-content-between align-items-baseline">
-                <h1 class="mb-4">{{ $actor->name }}</h1>
+                <h1 class="mb-4 fw-bold">{{ $actor->name }}</h1>
                 <div class="d-flex">
                     <i class="bi bi-pencil-square me-3 fs-5"></i>
                     <i class="bi bi-trash fs-5"></i>
