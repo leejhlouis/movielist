@@ -30,18 +30,11 @@
     <div class="parent">
         <div class="isi">
             <h2>Hello, Welcome back to <span class="movieSpan">Movie</span>List</h2>
-            <form action={{url('/register')}} method="POST" enctype="multipart/form-data">
-                {{csrf_field()}}
+            <form action={{url('/login')}} method="POST" enctype="multipart/form-data">
                 {{-- pengen fieldsetnya jadi item tapi nanti aja dah --}}
                 <div class="mb-3">
-                    <input name="username" type="text" placeholder="Username" class="form-control text-white bg-dark border border-secondary" id="exampleInputUsername1" aria-describedby="usernamelHelp">
-                    @error('username')
-                        {{$message}}
-                    @enderror
-                </div>
-                <div class="mb-3">
                     <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    @error('email')
+                    @error('username')
                         {{$message}}
                     @enderror
                 </div>
@@ -51,17 +44,15 @@
                         {{$message}}
                     @enderror
                 </div>
-                <div class="mb-3">
-                    <input name="conPassword" type="password" placeholder="Confirm Password" class="form-control text-white bg-dark border border-secondary" id="exampleInputConPassword1">
-                    @error('conPassword')
-                        {{$message}}
-                    @enderror
+                <div class="mb-3 form-check">
+                    <input name="remember_me" type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-danger" type="submit">Register</button>
+                    <button class="btn btn-danger" type="submit">Log In</button>
                 </div>
             </form>
-            <p>Already have an account? <a href={{url('/login')}}><span class="movieSpan">Login Here!</span></a></p>
+            <p>Don't have an account? <a href={{url('/register')}}><span class="movieSpan">Register Here!</span></a></p>
         </div>
     </div>
 @endsection

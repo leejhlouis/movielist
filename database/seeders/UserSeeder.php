@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -16,11 +14,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'username' => 'Admin',
-            'email' => 'admin@mail.com',
-            'password' => Hash::make('admin'),
-            'created_at' => Carbon::now()
+        //
+        DB::table('users')->insert([[
+            'username' => 'user',
+            'email' => 'marcelloyoel10@gmail.com',
+            'password' => '123'
+        ]
         ]);
     }
 }

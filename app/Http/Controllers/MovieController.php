@@ -12,12 +12,12 @@ class MovieController extends Controller
 {
     public function index(Request $request){
         $featuredMovies = Movie::inRandomOrder()->limit(3)->get();
-        $popularMovies = Movie::select('movies.id', 'movies.title', 'movies.thumbnail', 'movies.release_date', DB::raw('count(watchlists.movie_id) as watchlist_count'))->leftJoin('watchlists', 'watchlists.movie_id', '=', 'movies.id')->groupBy('movies.id', 'movies.title', 'movies.thumbnail', 'movies.release_date')->orderBy('watchlist_count', 'desc')->get(); 
+        $popularMovies = Movie::select('movies.id', 'movies.title', 'movies.thumbnail', 'movies.release_date', DB::raw('count(watchlists.movie_id) as watchlist_count'))->leftJoin('watchlists', 'watchlists.movie_id', '=', 'movies.id')->groupBy('movies.id', 'movies.title', 'movies.thumbnail', 'movies.release_date')->orderBy('watchlist_count', 'desc')->get();
         $genres = Genre::all();
-        
+
         if (isset($request->search)){
             $movies = Movie::where('title', 'like', "%$request->search%")->get();
-        } 
+        }
         else if (isset($request->genre)){
             $movies = Movie::join('movie_genres', 'movie_genres.movie_id', '=', 'movies.id')->where('movie_genres.genre_id', '=', $request->genre)->get();
         }
@@ -39,5 +39,9 @@ class MovieController extends Controller
         $movies = Movie::limit(5)->get();
 
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
+    }
+
+    public function insert(Request $request){
+        return view('insertMovie');
     }
 }
