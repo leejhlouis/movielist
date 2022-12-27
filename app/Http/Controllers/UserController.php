@@ -34,12 +34,14 @@ class UserController extends Controller
             'conPassword' => 'required|same:password|min:6'
         ]);
 
-        DB::table('users')->insert([[
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
-        ]]);
+        $user = new User();
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->date_joined = Carbon::now()->setTimezone('Asia/Jakarta');
+        $user->save();
+
+        Auth::login($user);
 
         return redirect('/');
     }
