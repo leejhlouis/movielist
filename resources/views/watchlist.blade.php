@@ -42,6 +42,15 @@
           font-weight: 600;
           color: rgb(169, 238, 186);
         }
+
+        .link-item{
+          color: white;
+          text-decoration: none;
+        }
+
+        .link-item:hover{
+          color: #ddd;
+        }
     </style>
 @endsection
 
@@ -86,9 +95,15 @@
                   @foreach ($watchlist as $w)
                     <tr>
                       <th scope="row" class="pe-lg-5" style="width: 15%;">
+                        <a href="{{ url('/movies/'.$w->movie_id) }}">
                           <img class="w-100" src="{{ url('/storage/movies/thumbnail/'.$w->movie->thumbnail ) }}" alt="">
+                        </a>
                       </th>
-                      <td class="h6">{{ $w->movie->title }}</td>
+                      <td class="h6">
+                        <a href="{{ url('/movies/'.$w->movie_id) }}" class="link-item">
+                          {{ $w->movie->title }}
+                        </a>
+                      </td>
                       <td class="text-status">{{ $w->status }}</td>
                       <td style="width: 15%;">
                           <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button" data-bs-toggle="modal" data-bs-target="#statusModal{{ $w->id }}">Change Status</a>
