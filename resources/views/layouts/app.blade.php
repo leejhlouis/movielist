@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <title>MovieList</title>
     <style>
-        nav{
-            height: 64px;
-        }
 
         .movieSpan{
             color: var(--bs-danger);
@@ -22,22 +19,38 @@
             text-align: center;
         }
 
+        .dropdown-menu{
+            background: #3f3f3f;
+        }
+
+        .dropdown-item{
+            color: white;
+        }
+
+        .dropdown-item:focus, .dropdown-item:hover{
+            background: #5f5f5f;
+            color: white;
+        }
+
+        .dropdown-menu[data-bs-popper]{
+            right: 0;
+            left: auto;
+        }
 
     </style>
     @yield('style')
   </head>
   <body class="bg-dark text-light">
     {{-- Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold fs-4" href="{{url('/')}}"><span class="movieSpan">Movie</span>List</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
-                        {{-- nanti activenya dipindahin setiap halaman --}}
                         <a class="nav-link active" aria-current="page" href="{{url('/')}}">Home</a>
                     </li>
                     <li class="nav-item">
@@ -72,7 +85,9 @@
         </div>
     </nav>
 
-    @yield('content')
+    <main style="padding-top:64px;">
+        @yield('content')
+    </main>
 
     {{-- Footer --}}
     <footer>
