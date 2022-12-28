@@ -77,7 +77,7 @@
                     <h1 class="mb-3 text-shadow fw-bold">{{ $movie->title }}</h1>
                     <p class="text-shadow d-none d-md-block">{{ $movie->description }}</p>
                     
-                    @if (Auth::user() && !Auth::user()->is_admin)
+                    @if (Auth::user() && !Auth::user()->is_admin && DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
                         <a href="/watchlist/add/{{ $movie->id }}" class="btn btn-danger d-flex px-4" style="width: fit-content;">
                             <i class="bi bi-plus me-2"></i>
                             <p class="mb-0">Add to Watchlist</p>
@@ -114,10 +114,12 @@
                             <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
                             <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
                         </div>
-                        @if (Auth::user() && !Auth::user()->is_admin)
+                        @if (Auth::user() && !Auth::user()->is_admin && DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
                             <a href="/watchlist/add/{{ $movie->id }}">
                                 <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
                             </a>
+                        @else
+                            <i class="bi bi-check text-success fs-4" style="z-index:100;"></i>
                         @endif
                     </div>
                 </div>
@@ -191,10 +193,12 @@
                             <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
                             <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
                         </div>
-                        @if (Auth::user() && !Auth::user()->is_admin)
+                        @if (Auth::user() && !Auth::user()->is_admin && DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
                             <a href="/watchlist/add/{{ $movie->id }}">
                                 <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
                             </a>
+                        @else
+                            <i class="bi bi-check text-success fs-4" style="z-index:100;"></i>
                         @endif
                     </div>
                 </div>

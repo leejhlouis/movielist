@@ -31,6 +31,12 @@
           background: var(--bs-danger);
           border-color: var(--bs-danger);
         }
+
+        @media only screen and (max-width: 580px) {
+          .table-container{
+            overflow-x: scroll;
+          }
+        }
     </style>
 @endsection
 
@@ -61,7 +67,7 @@
           </select>
         </form>
 
-        <div class="container" style="overflow-x: scroll;">
+        <div class="container table-container">
           <table class="table table-dark border-gray align-middle overflow-scroll" style="min-width: 480px;">
               <thead class="">
                   <tr>
