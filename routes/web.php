@@ -35,7 +35,6 @@ Route::group(['middleware' => 'auth'], function(){
 });
 
 Route::group(['middleware' => 'user'], function(){
-
     Route::prefix('watchlist')->group(function () {
         Route::get('/', [WatchlistController::class, 'index']);
         Route::put('/{id}', [WatchlistController::class, 'updateStatus']);
@@ -45,7 +44,16 @@ Route::group(['middleware' => 'user'], function(){
 });
 
 Route::group(['middleware' => 'admin'], function(){
-    Route::get('/movies/insert"', [MovieController::class, 'insert']);
-    // Route::get('/movies/update/{id}"', [MovieController::class, 'update']);
-    // Route::get('/movies/delete/{id}"', [MovieController::class, 'delete']);
+    
+    Route::prefix('movies')->group(function () {
+        Route::get('/insert', [MovieController::class, 'insert']);
+        // Route::get('/update/{id}', [MovieController::class, 'update']);
+        Route::get('/delete/{id}', [MovieController::class, 'delete']);
+    });
+
+    Route::prefix('actors')->group(function () {
+        // Route::get('/insert', [ActorController::class, 'insert']);
+        // Route::get('/update/{id}', [ActorController::class, 'update']);
+        Route::get('/delete/{id}', [ActorController::class, 'delete']);
+    });
 });

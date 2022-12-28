@@ -44,4 +44,14 @@ class MovieController extends Controller
     public function insert(Request $request){
         return view('insertMovie');
     }
+
+    public function delete($id){
+        $movie = Movie::find($id);
+
+        if ($movie){
+            $movie->delete();
+        }
+
+        return redirect('/');
+    }
 }

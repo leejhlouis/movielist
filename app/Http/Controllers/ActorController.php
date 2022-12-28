@@ -22,4 +22,14 @@ class ActorController extends Controller
         $actor = Actor::find($id);
         return view('actors.details', ["actor" => $actor]);
     }
+
+    public function delete($id){
+        $actor = Actor::find($id);
+
+        if ($actor){
+            $actor->delete();
+        }
+
+        return redirect('/');
+    }
 }
