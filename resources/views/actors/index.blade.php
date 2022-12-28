@@ -22,9 +22,17 @@
         <div class="d-flex justify-content-between mb-4">
             <h1 class="h2 text-danger">Actors</h1>
             <div>
-                <form class="d-flex" action="{{ url('/actors') }}">
-                    <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search actors..." aria-label="Search actors">
-                </form>
+                <div class="d-flex">
+                    <form class="d-flex" action="{{ url('/actors') }}">
+                        <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search actors..." aria-label="Search actors">
+                    </form>
+                    @if (Auth::user() && Auth::user()->is_admin)
+                        <a href="/actors/insert" class="btn btn-danger d-flex ms-3">
+                            <i class="bi bi-plus me-2"></i>
+                            <p class="mb-0">Add Actor</p>
+                        </a>
+                    @endif
+                </div>
             </div>
         </div>
 

@@ -39,5 +39,7 @@ Route::group(['middleware' => 'user'], function(){
 });
 
 Route::group(['middleware' => 'admin'], function(){
-    Route::get('/insert', [MovieController::class, 'insert']);
+    Route::get('/movies/insert"', [MovieController::class, 'insert']);
+    // Route::get('/movies/update/{id}"', [MovieController::class, 'update']);
+    // Route::get('/movies/delete/{id}"', [MovieController::class, 'delete']);
 });

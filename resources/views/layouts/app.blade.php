@@ -46,22 +46,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/actors')}}">Actors</a>
                     </li>
-                    @auth()
-                        @if (!Auth::user()->is_admin)
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('/watchlist')}}">My Watchlist</a>
-                            </li>
-                        @endif
-                    @endauth
+                    @if (Auth::user() && !Auth::user()->is_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url('/watchlist')}}">My Watchlist</a>
+                        </li>
+                    @endif
                 </ul>
                 <div class="navbar-nav d-flex">
-                    @auth()
+                    @auth
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ Auth::user()->username }}
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="{{url('/logout')}}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{{url('/profile')}}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{url('/logout')}}">Logout</a></li>
                             </ul>
                         </div>
                     @else
