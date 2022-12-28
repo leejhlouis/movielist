@@ -14,6 +14,23 @@
         .w-fit{
             width: fit-content;
         }
+
+        .page-link{
+          background: #3f3f3f;
+          border-color: #3f3f3f;
+          color: var(--bs-white);
+        }
+
+        .page-link:hover{
+          background: #5f5f5f;
+          border-color: #5f5f5f;
+          color: var(--bs-white);
+        }
+
+        .page-item.active .page-link{
+          background: var(--bs-danger);
+          border-color: var(--bs-danger);
+        }
     </style>
 @endsection
 
@@ -101,8 +118,8 @@
 
         <div class="d-flex justify-content-between align-items-center mt-4">
             <p>Showing <span class="fw-bold">{{ $watchlist->firstItem() }}</span> to <span class="fw-bold">{{ $watchlist->lastItem() }}</span> of <span class="fw-bold">{{ $watchlist->total() }}</span> results</p>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination bg-dark">
+            <nav>
+                <ul class="pagination">
                   <li class="page-item">
                     <a class="page-link" href="{{ $watchlist->previousPageUrl() }}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
