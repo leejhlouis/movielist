@@ -48,20 +48,17 @@ class UserController extends Controller
 
     public function newLogin(Request $request){
         $email = $request->email;
-        $pass = $request->password;
+        $password = $request->password;
 
-        if (Auth::attempt(['email' => $email, 'password' => $pass], true)){
-            $credential = [
-                'email' => $email,
-                'password' => $pass
-            ];
-        
-            if($request->remember_me){
-                Cookie::queue('cookie', $credential, 120);
-            }else{
-                Cookie::queue('cookie', $credential, -1);
-            }
-            
+        if ($request->remember_me){
+            Cookie::queue('cookie_email', $email, 120);
+            Cookie::queue('cookie_password', $password, 120);
+        } else{
+            Cookie::queue('cookie_email', $email, -1);
+            Cookie::queue('cookie_password', $password, -1);
+        }
+
+        if (Auth::attempt(['email' => $email, 'password' => $password], true)){
             return redirect('/');
         } else{
             return back()->withErrors(

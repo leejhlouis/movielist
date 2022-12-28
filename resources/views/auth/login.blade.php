@@ -40,27 +40,17 @@
                 @csrf
                 {{-- pengen fieldsetnya jadi item tapi nanti aja dah --}}
                 <div class="mb-3">
-                    <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    @error('username')
-                        <p class="text-danger">
-                            {{ $message }}
-                        </p>
-                    @enderror
+                    <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" value={{ Cookie::get('cookie_email') ? Cookie::get('cookie_email') : "" }}>
                 </div>
                 <div class="mb-3">
-                    <input name="password" type="password" placeholder="Password" class="form-control text-white bg-dark border border-secondary" id="exampleInputPassword1">
-                    @error('password')
-                        <p class="text-danger">
-                            {{ $message }}
-                        </p>
-                    @enderror
+                    <input name="password" type="password" placeholder="Password" class="form-control text-white bg-dark border border-secondary" id="exampleInputPassword1" value={{ Cookie::get('cookie_password') ? Cookie::get('cookie_password') : "" }}>
                 </div>
                 <div class="mb-3 form-check">
                     <input name="remember_me" type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-danger" type="submit">Log In</button>
+                    <button class="btn btn-danger" type="submit">Login</button>
                 </div>
             </form>
             <p>Don't have an account? <a href={{url('/register')}}><span class="movieSpan">Register Here!</span></a></p>
