@@ -40,6 +40,7 @@ Route::group(['middleware' => 'user'], function(){
         Route::get('/', [WatchlistController::class, 'index']);
         Route::put('/{id}', [WatchlistController::class, 'updateStatus']);
         Route::get('/add/{id}', [WatchlistController::class, 'add']);
+        Route::get('/remove/{id}', [WatchlistController::class, 'remove']);
     });
 });
 

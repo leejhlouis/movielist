@@ -54,4 +54,17 @@ class WatchlistController extends Controller
 
         return back();
     }
+
+    public function remove($id){
+        $watchlist = Watchlist::where([
+            ['user_id', '=', Auth::user()->id],
+            ['movie_id', '=', $id]
+        ])->first();
+
+        if ($watchlist){
+            $watchlist->delete();
+        }
+
+        return back();
+    }
 }

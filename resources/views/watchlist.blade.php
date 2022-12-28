@@ -37,6 +37,11 @@
             overflow-x: scroll;
           }
         }
+
+        .text-status{
+          font-weight: 600;
+          color: rgb(169, 238, 186);
+        }
     </style>
 @endsection
 
@@ -84,7 +89,7 @@
                           <img class="w-100" src="{{ url('/storage/movies/thumbnail/'.$w->movie->thumbnail ) }}" alt="">
                       </th>
                       <td class="h6">{{ $w->movie->title }}</td>
-                      <td class="text-success">{{ $w->status }}</td>
+                      <td class="text-status">{{ $w->status }}</td>
                       <td style="width: 15%;">
                           <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button" data-bs-toggle="modal" data-bs-target="#statusModal{{ $w->id }}">Change Status</a>
                       </td>
