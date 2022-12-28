@@ -28,7 +28,6 @@ class CreateUsersTable extends Migration
             $table->string('img_url', 500)->nullable();
             $table->timestamp('date_joined')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
-            $table->dropColumn('created_at');
         });
     }
 
