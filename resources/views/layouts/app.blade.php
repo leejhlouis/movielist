@@ -58,8 +58,8 @@
                             </ul>
                         </div>
                     @else
-                        <a href="{{url('/register')}}" class="btn btn-outline-primary me-2">Register</a>
-                        <a href="{{url('/login')}}" class="btn btn-primary" type="submit">Log In</a>
+                        <a href="{{url('/register')}}" class="btn btn-outline-danger me-2">Register</a>
+                        <a href="{{url('/login')}}" class="btn btn-danger" type="submit">Login</a>
                     @endauth
                 </div>
             </div>

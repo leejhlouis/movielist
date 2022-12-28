@@ -3,12 +3,12 @@
 @section('style')
 <style>
     .movieSpan{
-            color: red;
+        color: var(--bs-danger);
     }
 
     .isi{
-        width: 50%;
-        /* background-color: orange; */
+        width: 100%;
+        max-width: 640px;
         margin: 0 auto;
         margin-top: 3%;
     }
@@ -27,22 +27,32 @@
 @endsection
 
 @section('content')
-    <div class="parent">
+    <div class="container parent">
         <div class="isi">
-            <h2>Hello, Welcome back to <span class="movieSpan">Movie</span>List</h2>
+            <h2>Hello, welcome back to <span class="movieSpan">Movie</span>List</h2>
+            @error("authError")
+                <p class="alert alert-danger">
+                    {{ $message }}
+                </p>
+            @enderror
+            
             <form action={{url('/login')}} method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- pengen fieldsetnya jadi item tapi nanti aja dah --}}
                 <div class="mb-3">
                     <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp">
                     @error('username')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{ $message }}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <input name="password" type="password" placeholder="Password" class="form-control text-white bg-dark border border-secondary" id="exampleInputPassword1">
                     @error('password')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{ $message }}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3 form-check">
