@@ -43,12 +43,18 @@ class WatchlistController extends Controller
     }
 
     public function updateStatus($id, Request $request){
-        if (isset($request->status)){
+        if (isset($request->status) && in_array($request->status, array("Planned", "Watching", "Finished"))){
             $watchlist = Watchlist::find($id);
 
             if ($watchlist){
                 $watchlist->status = $request->status;
                 $watchlist->save();
+            }
+        } else if (isset($request->status) && $request->status == "Remove"){
+            $watchlist = Watchlist::find($id);
+    
+            if ($watchlist){
+                $watchlist->delete();
             }
         }
 

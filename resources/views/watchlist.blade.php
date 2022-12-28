@@ -111,6 +111,7 @@
                                   <option value="Planned" @if($w->status == "Planned") selected @endif>Planned</option>
                                   <option value="Watching" @if($w->status == "Watching") selected @endif>Watching</option>
                                   <option value="Finished" @if($w->status == "Finished") selected @endif>Finished</option>
+                                  <option value="Remove">Remove</option>
                                 </select>
                               </div>
                               <div class="modal-footer border-0">

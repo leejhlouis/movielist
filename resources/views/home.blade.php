@@ -127,7 +127,9 @@
                                     <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
                                 </a>
                             @else
-                                <i class="bi bi-check text-success fs-4" style="z-index:100;"></i>
+                                <a href="/watchlist/remove/{{ $movie->id }}">
+                                    <i class="bi bi-check text-success fs-4" style="cursor: pointer; z-index:100;"></i>
+                                </a>
                             @endif
                         @endif
                     </div>
@@ -208,7 +210,9 @@
                                     <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
                                 </a>
                             @else
-                                <i class="bi bi-check text-success fs-4" style="z-index:100;"></i>
+                                <a href="/watchlist/remove/{{ $movie->id }}">
+                                    <i class="bi bi-check text-success fs-4" style="cursor: pointer; z-index:100;"></i>
+                                </a>
                             @endif
                         @endif
                     </div>

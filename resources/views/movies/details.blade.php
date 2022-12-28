@@ -117,7 +117,17 @@
                                 <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
                             </div>
                             <div>
-                                <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
+                                @if (Auth::user() && !Auth::user()->is_admin)
+                                    @if (DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
+                                        <a href="/watchlist/add/{{ $movie->id }}">
+                                            <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
+                                        </a>
+                                    @else
+                                        <a href="/watchlist/remove/{{ $movie->id }}">
+                                            <i class="bi bi-check text-success fs-4" style="cursor: pointer; z-index:100;"></i>
+                                        </a>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
