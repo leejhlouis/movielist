@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -18,19 +19,22 @@ class UserSeeder extends Seeder
             'username' => 'Admin',
             'email' => 'admin@mail.com',
             'password' => bcrypt("admin"),
-            'is_admin' => '1'
+            'is_admin' => '1',
+            'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
             'username' => 'Louis',
             'email' => 'louisgustavo07@gmail.com',
             'password' => bcrypt("2107"),
-            'is_admin' => '0'
+            'is_admin' => '0',
+            'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
             'username' => 'Marcello',
             'email' => 'marcelloyoel10@gmail.com',
             'password' => bcrypt("123"),
-            'is_admin' => '0'
+            'is_admin' => '0',
+            'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ]
         ]);
     }
