@@ -46,6 +46,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/actors')}}">Actors</a>
                     </li>
+                    @auth()
+                        @if (!Auth::user()->is_admin)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url('/watchlist')}}">My Watchlist</a>
+                            </li>
+                        @endif
+                    @endauth
                 </ul>
                 <div class="navbar-nav d-flex">
                     @auth()

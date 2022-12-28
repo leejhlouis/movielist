@@ -18,16 +18,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [MovieController::class, 'index']);
-
-Route::get('/login', [UserController::class, 'login']);
-Route::post('/login', [UserController::class, 'newLogin']);
-Route::get('/register', [UserController::class, 'regis']);
-Route::post('/register', [UserController::class, 'newUser']);
-Route::get('/logout', [UserController::class, 'logout']);
-
+Route::get('/home', [MovieController::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'details']);
-Route::get('/insert', [MovieController::class, 'insert']);
 Route::get('/actors', [ActorController::class, 'index']);
 Route::get('/actors/{id}', [ActorController::class, 'details']);
-Route::get('/watchlist', [WatchlistController::class, 'index']);
 
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+    Route::post('/login', [UserController::class, 'newLogin']);
+    Route::get('/register', [UserController::class, 'regis']);
+    Route::post('/register', [UserController::class, 'newUser']);
+});
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/logout', [UserController::class, 'logout']);
+});
+
+Route::group(['middleware' => 'user'], function(){
+    Route::get('/watchlist', [WatchlistController::class, 'index']);
+});
+
+Route::group(['middleware' => 'admin'], function(){
+    Route::get('/insert', [MovieController::class, 'insert']);
+});
