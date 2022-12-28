@@ -35,7 +35,12 @@ Route::group(['middleware' => 'auth'], function(){
 });
 
 Route::group(['middleware' => 'user'], function(){
-    Route::get('/watchlist', [WatchlistController::class, 'index']);
+
+    Route::prefix('watchlist')->group(function () {
+        Route::get('/', [WatchlistController::class, 'index']);
+        Route::put('/{id}', [WatchlistController::class, 'updateStatus']);
+        Route::get('/add/{id}', [WatchlistController::class, 'add']);
+    });
 });
 
 Route::group(['middleware' => 'admin'], function(){

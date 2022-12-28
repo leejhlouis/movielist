@@ -132,14 +132,14 @@
                 <p class="mb-0 h3">Show</p>
             </h2>
             <div>
-                <form class="d-flex" action="{{ url('') }}">
+                <form class="d-flex" method="GET" action="{{ url('') }}">
                     <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search movie..." aria-label="Search movie">
                     <button class="btn btn-outline-danger" type="submit">Search</button>
                   </form>
             </div>
         </div>
         
-        <form id="customizeListForm" class="mt-3" action="{{ url('/') }}">
+        <form id="customizeListForm" class="mt-3" method="GET" action="{{ url('/') }}">
             <fieldset>
                 <ul class="d-flex list-unstyled w-100 flex-wrap mb-4 gap-3 align-items-center">
                     @foreach ($genres as $genre)
@@ -216,7 +216,6 @@
 <script>
     document.querySelectorAll('input[type="radio"]').forEach(element =>{
         element.addEventListener("click", ()=>{
-            console.log('ff');
             document.getElementById('customizeListForm').submit();
         });
     })
