@@ -42,6 +42,6 @@ class MovieController extends Controller
     }
 
     public function insert(Request $request){
-        return view('insertMovie');
+        return view('movies.insertMovie');
     }
 }

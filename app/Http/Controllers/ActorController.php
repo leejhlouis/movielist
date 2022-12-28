@@ -22,4 +22,9 @@ class ActorController extends Controller
         $actor = Actor::find($id);
         return view('actors.details', ["actor" => $actor]);
     }
+
+    public function showActorInInsert(){
+        $actors = Actor::all();
+        return view('movies.insertMovie', ["actors" => $actors]);
+    }
 }
