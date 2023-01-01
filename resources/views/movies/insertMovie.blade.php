@@ -30,10 +30,25 @@
 
 @endsection
 
+@section('jquery')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> --}}
+
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> --}}
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> --}}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+@endsection
+
 @section('content')
     <div class="isi">
         <h3><b>Add Movie</b></h3>
-        <form action="">
+        <form action={{url('/insert')}} method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="form-1">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
@@ -43,22 +58,19 @@
                     <label for="desc" class="form-label">Description</label>
                     <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 add">
                     <label for="genre" class="form-label">Genre</label>
-                    <select name="genre" class="form-select" aria-label="Default select example">
-                        <option selected disabled>Select the genre</option>
-                        <option value="Action">Action</option>
-                        <option value="Adventure">Adventure</option>
-                        <option value="Sci-fi">Sci-fi</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Romance">Romance</option>
-                        <option value="Thriller">Thriller</option>
-                        <option value="Horror">Horror</option>
+                    <br>
+                    <select id="genre" name="genres[]" multiple data-actions-box="true" class="selectpicker">
+                        @foreach ($genres as $g)
+                            <option value="{{$g->name}}">{{$g->name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="">Actors</label>
-                    <div class="container">
+                    {{-- disini buat isi actor dan nambahin actor pake button --}}
+                    <div class="container" id="container">
                         <div class="row">
                             <div class="col-6">
                                 {{-- pengen masukin nama actornya ke inserrt trs pake tag select tapi gimana ya wkwk --}}
@@ -71,8 +83,8 @@
                                 </select>
                             </div>
                             <div class="col-6">
-                                <label class="turunwoi" for="character_name" class="form-label">Character Name</label>
-                                <input type="text" class="form-control" id="character_name" name="character_name">
+                                <label class="turunwoi" for="character_1" class="form-label">Character Name</label>
+                                <input type="text" class="form-control" id="character_1" name="character_1">
                             </div>
                         </div>
                         <div class="row">
@@ -87,13 +99,13 @@
                                 </select>
                             </div>
                             <div class="col-6">
-                                <label class="turunwoi" for="character_name2" class="form-label">Character Name</label>
-                                <input type="text" class="form-control" id="character_name2" name="character_name2">
+                                <label class="turunwoi" for="character_2" class="form-label">Character Name</label>
+                                <input type="text" class="form-control" id="character_2" name="character_2">
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" id="addMore" class="btn btn-primary">Add More</button>
-                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" id="addMore" class="btn btn-primary">Add More</button>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -119,4 +131,31 @@
         </form>
 
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+            var count = 3;
+            $('#addMore').on('click', function(){
+                $('#container').append(`
+                <div class="row">
+                    <div class="col-6">
+                        <label class="turunwoi" for="actor/` + count + `">Actor</label>
+                        <select name="actor/` + count + `" class="form-select" aria-label="Default select example">
+                            <option selected disabled>Open this selected menu</option>
+                                @foreach ($actors as $a)
+                                    <option value="{{$a->name}}">{{$a->name}}</option>
+                                @endforeach
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="turunwoi" for="character_` + count + `" class="form-label">Character Name</label>
+                        <input type="text" class="form-control" id="character_` + count + `"name="character_` + count + `">
+                    </div>
+                </div>
+            `);
+                count++;
+            })
+        });
+    </script>
 @endsection

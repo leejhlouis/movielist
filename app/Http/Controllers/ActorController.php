@@ -23,8 +23,4 @@ class ActorController extends Controller
         return view('actors.details', ["actor" => $actor]);
     }
 
-    public function showActorInInsert(){
-        $actors = Actor::all();
-        return view('movies.insertMovie', ["actors" => $actors]);
-    }
 }

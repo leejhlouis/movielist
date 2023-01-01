@@ -26,7 +26,9 @@ Route::post('/register', [UserController::class, 'newUser']);
 Route::get('/logout', [UserController::class, 'logout']);
 
 Route::get('/movies/{id}', [MovieController::class, 'details']);
-Route::get('/insert', [ActorController::class, 'showActorInInsert']);
+Route::get('/insert', [MovieController::class, 'showActorInInsert']);
+Route::post('/insert', [MovieController::class, 'addMovie']);
+
 Route::get('/actors', [ActorController::class, 'index']);
 Route::get('/actors/{id}', [ActorController::class, 'details']);
 Route::get('/watchlist', [WatchlistController::class, 'index']);
