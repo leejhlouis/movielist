@@ -38,6 +38,11 @@ class MovieController extends Controller
 
     public function details($id){
         $movie = Movie::find($id);
+
+        if (!$movie){
+            return abort(404);            
+        }
+
         $movies = Movie::where('id', '<>', $id)->get();
 
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);

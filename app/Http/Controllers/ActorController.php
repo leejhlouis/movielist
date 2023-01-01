@@ -20,6 +20,11 @@ class ActorController extends Controller
 
     public function details($id){
         $actor = Actor::find($id);
+        
+        if (!$actor){
+            return abort(404);            
+        }
+
         return view('actors.details', ["actor" => $actor]);
     }
 
