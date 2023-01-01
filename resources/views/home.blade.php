@@ -77,10 +77,19 @@
                     <h1 class="mb-3 text-shadow fw-bold">{{ $movie->title }}</h1>
                     <p class="text-shadow d-none d-md-block">{{ $movie->description }}</p>
                     
-                    <button type="button" class="btn btn-danger d-flex px-4">
-                        <i class="bi bi-plus me-2"></i>
-                        <p class="mb-0">Add to Watchlist</p>
-                    </button>
+                    @if (Auth::user() && !Auth::user()->is_admin)
+                        @if(DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
+                            <a href="/watchlist/add/{{ $movie->id }}" class="btn btn-danger d-flex px-4" style="width: fit-content;">
+                                <i class="bi bi-plus me-2"></i>
+                                <p class="mb-0">Add to Watchlist</p>
+                            </a>
+                        @else
+                            <a href="/watchlist/remove/{{ $movie->id }}" class="btn btn-secondary d-flex px-4" style="width: fit-content;">
+                                <i class="bi bi-dash me-2"></i>
+                                <p class="mb-0">Remove from Watchlist</p>
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </div>
         @endforeach
@@ -103,13 +112,28 @@
         </h2>
         <div class="row row-cols-1 row-cols-md-5 g-4">
             @foreach ($popularMovies as $movie)
-                <a id="movieCard" href="/movies/{{ $movie->id }}" class="card bg-dark border-0 text-decoration-none">
-                    <img src="{{ url('/storage/movies/thumbnail/'.$movie->thumbnail) }}" alt="">
-                    <div class="card-body px-0">
-                        <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
-                        <p class="text-muted ">{{ date('Y', strtotime($movie->release_date)) }}</p>
+                <div class="card bg-dark border-0 text-decoration-none">
+                    <a id="movieCard" href="/movies/{{ $movie->id }}">
+                        <img class="w-100" src="{{ url('/storage/movies/thumbnail/'.$movie->thumbnail) }}" alt="">
+                    </a>
+                    <div class="pt-2 d-flex justify-content-between">
+                        <div style="width: 85%;">
+                            <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
+                            <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
+                        </div>
+                        @if (Auth::user() && !Auth::user()->is_admin)
+                            @if (DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
+                                <a href="/watchlist/add/{{ $movie->id }}">
+                                    <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
+                                </a>
+                            @else
+                                <a href="/watchlist/remove/{{ $movie->id }}">
+                                    <i class="bi bi-check text-success fs-4" style="cursor: pointer; z-index:100;"></i>
+                                </a>
+                            @endif
+                        @endif
                     </div>
-                </a>
+                </div>
             @endforeach
         </div>
     </div>
@@ -121,14 +145,14 @@
                 <p class="mb-0 h3">Show</p>
             </h2>
             <div>
-                <form class="d-flex" action="{{ url('') }}">
+                <form class="d-flex" method="GET" action="{{ url('') }}">
                     <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search movie..." aria-label="Search movie">
                     <button class="btn btn-outline-danger" type="submit">Search</button>
                   </form>
             </div>
         </div>
         
-        <form id="customizeListForm" class="mt-3" action="{{ url('/') }}">
+        <form id="customizeListForm" class="mt-3" method="GET" action="{{ url('/') }}">
             <fieldset>
                 <ul class="d-flex list-unstyled w-100 flex-wrap mb-4 gap-3 align-items-center">
                     @foreach ($genres as $genre)
@@ -159,12 +183,14 @@
             </fieldset>
         </form>
 
-        <div class="d-flex justify-content-end mb-4">
-            <button type="button" class="btn btn-danger d-flex">
-                <i class="bi bi-plus me-2"></i>
-                <p class="mb-0">Add Movie</p>
-            </button>
-        </div>
+        @if (Auth::user() && Auth::user()->is_admin)
+            <div class="d-flex justify-content-end mb-4">
+                <a href="/movies/insert" class="btn btn-danger d-flex">
+                    <i class="bi bi-plus me-2"></i>
+                    <p class="mb-0">Add Movie</p>
+                </a>
+            </div>
+        @endif
 
         <div class="row row-cols-1 row-cols-md-5 g-4">
 
@@ -178,9 +204,17 @@
                             <h3 class="h6 overflow-hidden w-100 dot-overflow text-white">{{ $movie->title }}</h3>
                             <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
                         </div>
-                        <div>
-                            <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
-                        </div>
+                        @if (Auth::user() && !Auth::user()->is_admin)
+                            @if (DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
+                                <a href="/watchlist/add/{{ $movie->id }}">
+                                    <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
+                                </a>
+                            @else
+                                <a href="/watchlist/remove/{{ $movie->id }}">
+                                    <i class="bi bi-check text-success fs-4" style="cursor: pointer; z-index:100;"></i>
+                                </a>
+                            @endif
+                        @endif
                     </div>
                 </div>
             @empty
@@ -201,7 +235,6 @@
 <script>
     document.querySelectorAll('input[type="radio"]').forEach(element =>{
         element.addEventListener("click", ()=>{
-            console.log('ff');
             document.getElementById('customizeListForm').submit();
         });
     })

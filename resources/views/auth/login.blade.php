@@ -3,12 +3,12 @@
 @section('style')
 <style>
     .movieSpan{
-            color: red;
+        color: var(--bs-danger);
     }
 
     .isi{
-        width: 50%;
-        /* background-color: orange; */
+        width: 100%;
+        max-width: 640px;
         margin: 0 auto;
         margin-top: 3%;
     }
@@ -27,30 +27,30 @@
 @endsection
 
 @section('content')
-    <div class="parent">
+    <div class="container parent">
         <div class="isi">
-            <h2>Hello, Welcome back to <span class="movieSpan">Movie</span>List</h2>
+            <h2>Hello, welcome back to <span class="movieSpan">Movie</span>List</h2>
+            @error("authError")
+                <p class="alert alert-danger">
+                    {{ $message }}
+                </p>
+            @enderror
+            
             <form action={{url('/login')}} method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- pengen fieldsetnya jadi item tapi nanti aja dah --}}
                 <div class="mb-3">
-                    <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    @error('username')
-                        {{$message}}
-                    @enderror
+                    <input name="email" type="email" placeholder="Email address" class="form-control text-white bg-dark border border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" value={{ Cookie::get('cookie_email') ? Cookie::get('cookie_email') : "" }}>
                 </div>
                 <div class="mb-3">
-                    <input name="password" type="password" placeholder="Password" class="form-control text-white bg-dark border border-secondary" id="exampleInputPassword1">
-                    @error('password')
-                        {{$message}}
-                    @enderror
+                    <input name="password" type="password" placeholder="Password" class="form-control text-white bg-dark border border-secondary" id="exampleInputPassword1" value={{ Cookie::get('cookie_password') ? Cookie::get('cookie_password') : "" }}>
                 </div>
                 <div class="mb-3 form-check">
                     <input name="remember_me" type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-danger" type="submit">Log In</button>
+                    <button class="btn btn-danger" type="submit">Login</button>
                 </div>
             </form>
             <p>Don't have an account? <a href={{url('/register')}}><span class="movieSpan">Register Here!</span></a></p>

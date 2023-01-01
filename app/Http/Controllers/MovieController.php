@@ -38,7 +38,7 @@ class MovieController extends Controller
 
     public function details($id){
         $movie = Movie::find($id);
-        $movies = Movie::limit(5)->get();
+        $movies = Movie::where('id', '<>', $id)->get();
 
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
     }
@@ -104,6 +104,16 @@ class MovieController extends Controller
             $ctr++;
             $additional = 'actor/'.$ctr;
         }while($request->$additional);
+        return redirect('/');
+    }
+
+    public function delete($id){
+        $movie = Movie::find($id);
+
+        if ($movie){
+            $movie->delete();
+        }
+
         return redirect('/');
     }
 }

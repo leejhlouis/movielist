@@ -14,6 +14,43 @@
         .w-fit{
             width: fit-content;
         }
+
+        .page-link{
+          background: #3f3f3f;
+          border-color: #3f3f3f;
+          color: var(--bs-white);
+        }
+
+        .page-link:hover{
+          background: #5f5f5f;
+          border-color: #5f5f5f;
+          color: var(--bs-white);
+        }
+
+        .page-item.active .page-link{
+          background: var(--bs-danger);
+          border-color: var(--bs-danger);
+        }
+
+        @media only screen and (max-width: 580px) {
+          .table-container{
+            overflow-x: scroll;
+          }
+        }
+
+        .text-status{
+          font-weight: 600;
+          color: rgb(169, 238, 186);
+        }
+
+        .link-item{
+          color: white;
+          text-decoration: none;
+        }
+
+        .link-item:hover{
+          color: #ddd;
+        }
     </style>
 @endsection
 
@@ -24,60 +61,104 @@
             <p class="mb-0 h3">My <span class="text-danger">Watchlist</span></p>
         </h1>
 
-        <form class="my-5 d-flex bg-gray rounded-5 align-items-center" role="search">
-            <input class="form-control me-2 bg-gray border-0" type="search" placeholder="Search" aria-label="Search">
-            <i class="bi bi-search mx-3"></i>
+        <form class="my-5 d-flex bg-gray rounded-5 align-items-center" role="search" method="GET" action="{{ url('/watchlist') }}">
+            <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search movie..." aria-label="Search">
+            <button class="btn btn-danger d-flex" type="submit">
+              <i class="bi bi-search me-2"></i>
+              <p class="mb-0">Search</p>
+            </button>
         </form>
 
-        <div class="input-group mb-3" style="width: 15%;">
-            <label class="input-group-text border-0 bg-dark text-white" for="inputGroupSelect01">
-                <i class="bi bi-funnel-fill"></i>
-            </label>
-            <select class="px-2 bg-dark text-white rounded" id="inputGroupSelect01">
-              <option selected>All</option>
-              <option value="Planned">Planned</option>
-              <option value="Watching">Watching</option>
-              <option value="Finished">Finished</option>
-            </select>
-          </div>
+        <form id="statusFilterForm" class="input-group mb-5" method="GET" action="{{ url('/watchlist') }}">
+          <label class="input-group-text border-0 bg-dark text-white" for="status">
+              <i class="bi bi-funnel-fill"></i>
+          </label>
+          <select class="px-2 bg-dark text-white rounded" id="statusFilter" name="status">
+            <option value="all"  @if(Request::get('status') == "all") selected @endif>All</option>
+            <option value="Planned" @if(Request::get('status') == "Planned") selected @endif>Planned</option>
+            <option value="Watching" @if(Request::get('status') == "Watching") selected @endif>Watching</option>
+            <option value="Finished" @if(Request::get('status') == "Finished") selected @endif>Finished</option>
+          </select>
+        </form>
 
-        <table class="table table-dark border-gray align-middle overflow-scroll" style="min-width: 480px;">
-            <thead class="">
-                <tr>
-                  <th class="border-0" scope="col">Poster</th>
-                  <th class="border-0" scope="col">Title</th>
-                  <th class="border-0" scope="col">Status</th>
-                  <th class="border-0" scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <th scope="row" class="pe-lg-5" style="width: 15%;">
-                        <img class="w-100" src="https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_FMjpg_UX1000_.jpg" alt="">
-                    </th>
-                    <td>Spider-Man: No Way Home</td>
-                    <td class="text-success fw-bold">Planning</td>
-                    <td style="width: 15%;">
-                        <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button" data-bs-toggle="modal" data-bs-target="#statusModal">Change Status</a>
-                    </td>
-                </tr>
-              </tbody>
-        </table>
+        <div class="container table-container">
+          <table class="table table-dark border-gray align-middle overflow-scroll" style="min-width: 480px;">
+              <thead class="">
+                  <tr>
+                    <th class="border-0" scope="col">Poster</th>
+                    <th class="border-0" scope="col">Title</th>
+                    <th class="border-0" scope="col">Status</th>
+                    <th class="border-0" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($watchlist as $w)
+                    <tr>
+                      <th scope="row" class="pe-lg-5" style="width: 15%;">
+                        <a href="{{ url('/movies/'.$w->movie_id) }}">
+                          <img class="w-100" src="{{ url('/storage/movies/thumbnail/'.$w->movie->thumbnail ) }}" alt="">
+                        </a>
+                      </th>
+                      <td class="h6">
+                        <a href="{{ url('/movies/'.$w->movie_id) }}" class="link-item">
+                          {{ $w->movie->title }}
+                        </a>
+                      </td>
+                      <td class="text-status">{{ $w->status }}</td>
+                      <td style="width: 15%;">
+                          <a name="" id="" class="btn btn-sm btn-danger" href="#" role="button" data-bs-toggle="modal" data-bs-target="#statusModal{{ $w->id }}">Change Status</a>
+                      </td>
+                    </tr>
+                    
+                    <div class="modal fade" id="statusModal{{ $w->id }}" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content bg-dark">
+                          <form method="POST" action="{{ url('watchlist/'.$w->id) }}">
+                            {{ method_field('PUT') }}
+                            @csrf
+                            <fieldset>
+                              <div class="modal-header border-0">
+                                <label for="status" class="h1 modal-title fs-5" id="modalLabel">Change status</label>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <select id="status" name="status" class="w-100 p-2 bg-dark text-white rounded">
+                                  <option value="Planned" @if($w->status == "Planned") selected @endif>Planned</option>
+                                  <option value="Watching" @if($w->status == "Watching") selected @endif>Watching</option>
+                                  <option value="Finished" @if($w->status == "Finished") selected @endif>Finished</option>
+                                  <option value="Remove">Remove</option>
+                                </select>
+                              </div>
+                              <div class="modal-footer border-0">
+                                @csrf
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Save changes</button>
+                              </div>
+                            </fieldset>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
+                  
+                </tbody>
+          </table>
+        </div>
 
         <div class="d-flex justify-content-between align-items-center mt-4">
-            <p>Showing <span class="fw-bold">1</span> to <span class="fw-bold">1</span> of <span class="fw-bold">1</span> results</p>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination bg-dark">
+            <p>Showing <span class="fw-bold">{{ $watchlist->firstItem() }}</span> to <span class="fw-bold">{{ $watchlist->lastItem() }}</span> of <span class="fw-bold">{{ $watchlist->total() }}</span> results</p>
+            <nav>
+                <ul class="pagination">
                   <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link" href="{{ $watchlist->previousPageUrl() }}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  @for ($i = 1; $i <= $watchlist->lastPage(); $i++)
+                    <li class="page-item @if($watchlist->currentPage() == $i) active @endif"><a class="page-link" href="{{ $watchlist->url($i) }}">{{ $i }}</a></li>
+                  @endfor
                   <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link" href="{{ $watchlist->nextPageUrl() }}" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
@@ -87,27 +168,12 @@
 
     </div>
 
-    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content bg-dark">
-          <div class="modal-header border-0">
-            <h1 class="modal-title fs-5" id="modalLabel">Change status</h1>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <select class="w-100 p-2 bg-dark text-white rounded" id="inputGroupSelect01">
-              <option selected>All</option>
-              <option value="Planned">Planned</option>
-              <option value="Watching">Watching</option>
-              <option value="Finished">Finished</option>
-            </select>
-          </div>
-          <div class="modal-footer border-0">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+@endsection
 
+@section('script')
+<script>
+    document.getElementById('statusFilter').onchange = ()=>{
+      document.getElementById('statusFilterForm').submit();
+    }
+</script>
 @endsection

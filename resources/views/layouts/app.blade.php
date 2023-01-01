@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <title>MovieList</title>
     <style>
-        nav{
-            height: 64px;
-        }
 
         .movieSpan{
             color: var(--bs-danger);
@@ -22,6 +19,23 @@
             text-align: center;
         }
 
+        .dropdown-menu{
+            background: #3f3f3f;
+        }
+
+        .dropdown-item{
+            color: white;
+        }
+
+        .dropdown-item:focus, .dropdown-item:hover{
+            background: #5f5f5f;
+            color: white;
+        }
+
+        .dropdown-menu[data-bs-popper]{
+            right: 0;
+            left: auto;
+        }
 
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -31,17 +45,16 @@
   </head>
   <body class="bg-dark text-light">
     {{-- Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
             <a class="navbar-brand fw-bold fs-4" href="{{url('/')}}"><span class="movieSpan">Movie</span>List</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
                     <li class="nav-item">
-                        {{-- nanti activenya dipindahin setiap halaman --}}
-                        <a class="nav-link active" aria-current="page" href="{{url('/')}}">Home</a>
+                        <a class="nav-link" aria-current="page" href="{{url('/')}}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/')}}">Movies</a>
@@ -49,27 +62,35 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/actors')}}">Actors</a>
                     </li>
+                    @if (Auth::user() && !Auth::user()->is_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url('/watchlist')}}">My Watchlist</a>
+                        </li>
+                    @endif
                 </ul>
                 <div class="navbar-nav d-flex">
-                    @auth()
+                    @auth
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ Auth::user()->username }}
                             </a>
                             <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="{{url('/logout')}}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{{url('/profile')}}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{url('/logout')}}">Logout</a></li>
                             </ul>
                         </div>
                     @else
-                        <a href="{{url('/register')}}" class="btn btn-outline-primary me-2">Register</a>
-                        <a href="{{url('/login')}}" class="btn btn-primary" type="submit">Log In</a>
+                        <a href="{{url('/register')}}" class="btn btn-outline-danger me-2">Register</a>
+                        <a href="{{url('/login')}}" class="btn btn-danger" type="submit">Login</a>
                     @endauth
                 </div>
             </div>
         </div>
     </nav>
 
-    @yield('content')
+    <main style="padding-top:64px;">
+        @yield('content')
+    </main>
 
     {{-- Footer --}}
     <footer>

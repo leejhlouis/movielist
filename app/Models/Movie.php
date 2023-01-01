@@ -18,6 +18,6 @@ class Movie extends Model
     }
 
     public function watchlist(){
-        return $this->belongsTo(Watchlist::class);
+        return $this->hasMany(Watchlist::class);
     }
 }

@@ -32,12 +32,14 @@
         .actor-card:hover {
             opacity: 0.75;
         }
+        
+        a.text-white:hover{
+            opacity: 0.75;
+        }
     </style>
 @endsection
 
 @section('content')
-    {{-- <div class="top-section" style="background: url('{{ $movie->thumbnail }}')"> --}}
-    
     <div class="top-section">
         <div class="backdrop d-flex justify-content-center align-items-center">
             <div class="container d-flex gap-5">
@@ -47,10 +49,16 @@
                 <div class="w-75 ps-3">
                     <div class="d-flex justify-content-between align-items-baseline">
                         <h1 class="text-shadow fw-bold">{{ $movie->title }}</h1>
-                        <div class="d-flex">
-                            <i class="bi bi-pencil-square me-3 fs-5"></i>
-                            <i class="bi bi-trash fs-5"></i>
-                        </div>
+                        @if (Auth::user() && Auth::user()->is_admin)
+                            <div class="d-flex">
+                                <a href="/movies/update/{{ $movie->id }}" class="text-white">
+                                    <i class="bi bi-pencil-square me-3 fs-5"></i>
+                                </a>
+                                <a href="/movies/delete/{{ $movie->id }}" class="text-white">
+                                    <i class="bi bi-trash fs-5"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                     
                     <ul class="d-flex list-unstyled mt-3">
@@ -109,7 +117,17 @@
                                 <p class="text-muted">{{ date('Y', strtotime($movie->release_date)) }}</p>
                             </div>
                             <div>
-                                <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
+                                @if (Auth::user() && !Auth::user()->is_admin)
+                                    @if (DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
+                                        <a href="/watchlist/add/{{ $movie->id }}">
+                                            <i class="bi bi-plus text-danger fs-4" style="cursor: pointer; z-index:100;"></i>
+                                        </a>
+                                    @else
+                                        <a href="/watchlist/remove/{{ $movie->id }}">
+                                            <i class="bi bi-check text-success fs-4" style="cursor: pointer; z-index:100;"></i>
+                                        </a>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </div>
