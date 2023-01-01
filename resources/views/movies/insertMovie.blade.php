@@ -47,7 +47,7 @@
 @section('content')
     <div class="isi">
         <h3><b>Add Movie</b></h3>
-        <form action={{url('/insert')}} method="POST" enctype="multipart/form-data">
+        <form action={{ url('/movies/insert') }} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
                 <div class="mb-3">
@@ -63,7 +63,7 @@
                     <br>
                     <select id="genre" name="genres[]" multiple data-actions-box="true" class="selectpicker">
                         @foreach ($genres as $g)
-                            <option value="{{$g->name}}">{{$g->name}}</option>
+                            <option value="{{ $g->id }}">{{ $g->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -78,7 +78,7 @@
                                 <select name="actor/1" class="form-select" aria-label="Default select example">
                                     <option selected disabled>Open this selected menu</option>
                                     @foreach ($actors as $a)
-                                        <option value="{{$a->name}}">{{$a->name}}</option>
+                                        <option value="{{$a->id}}">{{$a->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,7 +94,7 @@
                                 <select name="actor/2" class="form-select" aria-label="Default select example">
                                     <option selected disabled>Open this selected menu</option>
                                     @foreach ($actors as $a)
-                                        <option value="{{$a->name}}">{{$a->name}}</option>
+                                        <option value="{{$a->id}}">{{$a->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -125,7 +125,7 @@
                     <input type="file" class="form-control" id="background" name="background">
                 </div>
                 <div class="d-grid">
-                    <input class="btn btn-danger" type="submit"></input>
+                    <input class="btn btn-danger" type="submit">
                 </div>
             </div>
         </form>
