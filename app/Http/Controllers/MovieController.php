@@ -67,8 +67,8 @@ class MovieController extends Controller
         $image = $request->file('img');
         $bg = $request->file('background');
 
-        $imageFilename = time().'='.$image->getClientOriginalName();
-        $bgFilename = time().'.'.$bg->getClientOriginalName();
+        $imageFilename = time().'-'.$image->getClientOriginalName();
+        $bgFilename = time().'-'.$bg->getClientOriginalName();
 
         Storage::putFileAs('public/movies/thumbnail/', $image, $imageFilename);
         Storage::putFileAs('public/movies/background/', $bg, $bgFilename);
