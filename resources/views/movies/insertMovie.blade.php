@@ -52,10 +52,20 @@
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" name="title">
+                    @error('title')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="desc" class="form-label">Description</label>
                     <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+                    @error('desc')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="mb-3 add">
                     <label for="genre" class="form-label">Genre</label>
@@ -65,6 +75,11 @@
                             <option value="{{ $g->id }}">{{ $g->name }}</option>
                         @endforeach
                     </select>
+                    @error('genres')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="">Actors</label>
@@ -104,24 +119,44 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="button" id="addMore" class="btn btn-primary">Add More</button>
+                        <button type="button" id="addMore" class="btn btn-danger">Add More</button>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="director" class="form-label">Director</label>
                     <input type="text" class="form-control" id="director" name="director">
+                    @error('director')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">Release Date</label>
                     <input type="date" class="form-control" id="date" name="date">
+                    @error('date')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Image Url</label>
                     <input type="file" class="form-control" id="img" name="img">
+                    @error('img')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="background" class="form-label">Background Url</label>
                     <input type="file" class="form-control" id="background" name="background">
+                    @error('background')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
+                    @enderror
                 </div>
                 <div class="d-grid">
                     <input class="btn btn-danger" type="submit">

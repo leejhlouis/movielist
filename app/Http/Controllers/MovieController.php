@@ -55,9 +55,12 @@ class MovieController extends Controller
     }
 
     public function addMovie(Request $request){
+        // Belum validasi aktor & genre
+
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
             'desc' => 'required | min:8',
+            'genres' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
             'img' => 'required | mimes:jpeg,jpg,png,gif',
