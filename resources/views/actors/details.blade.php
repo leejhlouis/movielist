@@ -5,6 +5,10 @@
         #movieCard:hover{
             opacity: 0.75;
         }
+
+        a.text-white:hover{
+            opacity: 0.75;
+        }
     </style>
 @endsection
 
@@ -32,10 +36,16 @@
         <div class="w-75">
             <div class="d-flex justify-content-between align-items-baseline">
                 <h1 class="mb-4 fw-bold">{{ $actor->name }}</h1>
-                <div class="d-flex">
-                    <i class="bi bi-pencil-square me-3 fs-5"></i>
-                    <i class="bi bi-trash fs-5"></i>
-                </div>
+                @if (Auth::user() && Auth::user()->is_admin)
+                    <div class="d-flex">
+                        <a href="/actors/update/{{ $actor->id }}" class="text-white">
+                            <i class="bi bi-pencil-square me-3 fs-5"></i>
+                        </a>
+                        <a href="/actors/delete/{{ $actor->id }}" class="text-white">
+                            <i class="bi bi-trash fs-5"></i>
+                        </a>
+                    </div>
+                @endif
             </div>
             
             <div class="pb-3">

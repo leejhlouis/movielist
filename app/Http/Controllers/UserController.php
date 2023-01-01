@@ -7,32 +7,32 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function login(){
-        return view('login');
+        return view('auth.login');
     }
 
     public function regis(){
-        return view('register');
+        return view('auth.register');
     }
 
     public function newUser(Request $request){
         $this->validate($request, [
-            'username' => 'required | min:5 | unique:users,username',
-            'email' => 'required | email | unique:users,email',
+            'username' => 'required|min:5|unique:users,username',
+            'email' => 'required|email|unique:users,email',
             'password' => [
                 'required',
                 'min:6',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
+                'confirmed',
+                'regex:/[A-Za-z]/',
                 'regex:/[0-9]/',
                 'regex:/[@$!%*#?&]/',
-            ],
-            'conPassword' => 'required|same:password|min:6'
-        ]);
+            ]], [
+                'password.regex' => "The :attribute must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+            ]
+        );
 
         $user = new User();
         $user->username = $request->username;
@@ -48,23 +48,22 @@ class UserController extends Controller
 
     public function newLogin(Request $request){
         $email = $request->email;
-        $pass = $request->password;
+        $password = $request->password;
 
-        if (Auth::attempt(['email' => $email, 'password' => $pass], true)){
-            return redirect('/');
+        if ($request->remember_me){
+            Cookie::queue('cookie_email', $email, 120);
+            Cookie::queue('cookie_password', $password, 120);
         } else{
-            return back();
+            Cookie::queue('cookie_email', $email, -1);
+            Cookie::queue('cookie_password', $password, -1);
         }
 
-        $credential = [
-            'email' => $email,
-            'password' => $pass
-        ];
-
-        if($request->remember_me){
-            Cookie::queue('cookie', $credential, 120);
-        }else{
-            Cookie::queue('cookie', $credential, -1);
+        if (Auth::attempt(['email' => $email, 'password' => $password], true)){
+            return redirect('/');
+        } else{
+            return back()->withErrors(
+                ['authError' => "Your email or password is incorrect. Please try again!"]
+            );
         }
     }
 

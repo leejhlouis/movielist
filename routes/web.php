@@ -18,13 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [MovieController::class, 'index']);
-
-Route::get('/login', [UserController::class, 'login']);
-Route::post('/login', [UserController::class, 'newLogin']);
-Route::get('/register', [UserController::class, 'regis']);
-Route::post('/register', [UserController::class, 'newUser']);
-Route::get('/logout', [UserController::class, 'logout']);
-
+Route::get('/home', [MovieController::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'details']);
 Route::get('/insert', [MovieController::class, 'showActorInInsert']);
 Route::post('/insert', [MovieController::class, 'addMovie']);
@@ -32,5 +26,38 @@ Route::post('/edit', [MovieController::class, 'showData']);
 
 Route::get('/actors', [ActorController::class, 'index']);
 Route::get('/actors/{id}', [ActorController::class, 'details']);
-Route::get('/watchlist', [WatchlistController::class, 'index']);
 
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+    Route::post('/login', [UserController::class, 'newLogin']);
+    Route::get('/register', [UserController::class, 'regis']);
+    Route::post('/register', [UserController::class, 'newUser']);
+});
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/logout', [UserController::class, 'logout']);
+});
+
+Route::group(['middleware' => 'user'], function(){
+    Route::prefix('watchlist')->group(function () {
+        Route::get('/', [WatchlistController::class, 'index']);
+        Route::put('/{id}', [WatchlistController::class, 'updateStatus']);
+        Route::get('/add/{id}', [WatchlistController::class, 'add']);
+        Route::get('/remove/{id}', [WatchlistController::class, 'remove']);
+    });
+});
+
+Route::group(['middleware' => 'admin'], function(){
+    
+    Route::prefix('movies')->group(function () {
+        Route::get('/insert', [MovieController::class, 'insert']);
+        // Route::get('/update/{id}', [MovieController::class, 'update']);
+        Route::get('/delete/{id}', [MovieController::class, 'delete']);
+    });
+
+    Route::prefix('actors')->group(function () {
+        // Route::get('/insert', [ActorController::class, 'insert']);
+        // Route::get('/update/{id}', [ActorController::class, 'update']);
+        Route::get('/delete/{id}', [ActorController::class, 'delete']);
+    });
+});
