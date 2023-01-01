@@ -106,4 +106,9 @@ class MovieController extends Controller
         }while($request->$additional);
         return redirect('/');
     }
+
+    public function showData(Request $request){
+        //nanti disini diisi sama actor dan genre dari id yang dikirim
+        return view('movies.editMovie');
+    }
 }

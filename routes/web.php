@@ -28,6 +28,7 @@ Route::get('/logout', [UserController::class, 'logout']);
 Route::get('/movies/{id}', [MovieController::class, 'details']);
 Route::get('/insert', [MovieController::class, 'showActorInInsert']);
 Route::post('/insert', [MovieController::class, 'addMovie']);
+Route::post('/edit', [MovieController::class, 'showData']);
 
 Route::get('/actors', [ActorController::class, 'index']);
 Route::get('/actors/{id}', [ActorController::class, 'details']);
