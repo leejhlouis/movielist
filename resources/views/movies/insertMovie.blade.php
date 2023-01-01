@@ -3,7 +3,6 @@
 @section('style')
 <style>
     .isi{
-        width: 85%;
         /* background-color: orange; */
         margin: 0 auto;
         margin-top: 3%;
@@ -45,8 +44,8 @@
 @endsection
 
 @section('content')
-    <div class="isi">
-        <h3><b>Add Movie</b></h3>
+    <div class="isi container">
+        <h3 class="mb-5"><b>Add Movie</b></h3>
         <form action={{ url('/movies/insert') }} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
