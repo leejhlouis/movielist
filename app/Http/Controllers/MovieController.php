@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Actor;
 use App\Models\Genre;
 use App\Models\Movie;
+use App\Models\MovieActor;
+use App\Models\MovieGenre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -107,10 +109,87 @@ class MovieController extends Controller
         return redirect('/');
     }
 
-    public function showData(Request $request){
+    public function showData($id){
         //nanti disini diisi sama actor dan genre dari id yang dikirim
-        return view('movies.editMovie');
+        $movie = Movie::find($id);
+        $genres = Genre::all();
+        $actors = Actor::all();
+        return view('movies.editMovie',['movie' => $movie, 'movieGenre' => $genres, 'movieActor' => $actors]);
 
+    }
+
+    public function updateData(Request $request){
+        $this->validate($request, [
+            'title' => 'required | min:2 | max:50',
+            'desc' => 'required | min:8',
+            'director' => 'required | min:3',
+            'date' => 'required',
+            'img' => 'required | mimes:jpeg,jpg,png,gif',
+            'background' => 'required | mimes:jpeg,jpg,png,gif'
+        ]);
+
+        $image = $request->file('img');
+        $bg = $request->file('background');
+
+        Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
+        Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
+
+        DB::table('movies')->where('id', $request->route('id'))->update([
+            'title' => $request->title,
+            'description' => $request->desc,
+            'director' => $request->director,
+            'release_date' => $request->date,
+            'thumbnail' => $image->getClientOriginalName(),
+            'background' => $bg->getClientOriginalName(),
+        ]);
+
+        $latestId = $request->route('id');
+
+        $genres = $request->genres;
+        $movieGenreDelete = MovieGenre::find()->where('movie_id', $latestId);
+        $movieGenreDelete->delete();
+
+        $movieActorDelete = MovieActor::find()->where('movie_id', $latestId);
+        $movieActorDelete->delete();
+
+        foreach($genres as $g){
+            $getGenre = DB::table('genres')->where('name', $g)->first();
+            $getGenreId = $getGenre->id;
+
+
+            // DB::table('movie_genres')->where('movie_id', $request->route('id'))->update([
+            //     'genre_id' => $getGenreId,
+            //     'movie_id' => $latestId
+            // ]);
+            DB::table('movie_genres')->insert([
+                'genre_id' => $getGenreId,
+                'movie_id' => $latestId
+            ]);
+        }
+
+        $ctr = 1;
+        do{
+            $inputedActor = 'actor/'.$ctr;
+            $actorId = DB::table('actors')->where('name', $request->$inputedActor)->first()->id;
+
+            $inputedCharacter = 'character_'.$ctr;
+            $charaName = $request->$inputedCharacter;
+            // DB::table('movie_actors')->where('movie_id', $request->route('id'))->update([
+            //     'movie_id' => $latestId,
+            //     'actor_id' => $actorId,
+            //     'character_name' => $charaName
+            // ]);
+            DB::table('movie_actors')->insert([
+                'movie_id' => $latestId,
+                'actor_id' => $actorId,
+                'character_name' => $charaName
+            ]);
+
+            $ctr++;
+            $additional = 'actor/'.$ctr;
+        }while($request->$additional);
+
+        return redirect('/');
     }
 
     public function delete($id){
