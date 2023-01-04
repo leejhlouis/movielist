@@ -118,7 +118,7 @@ class MovieController extends Controller
 
     }
 
-    public function updateData(Request $request){
+    public function updateData(Request $request, $id){
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
             'desc' => 'required | min:8',
@@ -143,45 +143,35 @@ class MovieController extends Controller
             'background' => $bg->getClientOriginalName(),
         ]);
 
-        $latestId = $request->route('id');
-
         $genres = $request->genres;
-        $movieGenreDelete = MovieGenre::find()->where('movie_id', $latestId);
-        $movieGenreDelete->delete();
 
-        $movieActorDelete = MovieActor::find()->where('movie_id', $latestId);
-        $movieActorDelete->delete();
+        MovieGenre::where('movie_id', '=', $id)->delete();
+        MovieActor::where('movie_id', '=', $id)->delete();
 
-        foreach($genres as $g){
-            $getGenre = DB::table('genres')->where('name', $g)->first();
-            $getGenreId = $getGenre->id;
-
-
-            // DB::table('movie_genres')->where('movie_id', $request->route('id'))->update([
-            //     'genre_id' => $getGenreId,
-            //     'movie_id' => $latestId
-            // ]);
+        foreach($genres as $genreId){
             DB::table('movie_genres')->insert([
-                'genre_id' => $getGenreId,
-                'movie_id' => $latestId
+                'genre_id' => $genreId,
+                'movie_id' => $id
             ]);
         }
 
         $ctr = 1;
         do{
             $inputedActor = 'actor/'.$ctr;
-            $actorId = DB::table('actors')->where('name', $request->$inputedActor)->first()->id;
+            // $actorId = DB::table('actors')->where('name', $request->$inputedActor)->first()->id;
 
             $inputedCharacter = 'character_'.$ctr;
             $charaName = $request->$inputedCharacter;
+            
             // DB::table('movie_actors')->where('movie_id', $request->route('id'))->update([
             //     'movie_id' => $latestId,
             //     'actor_id' => $actorId,
             //     'character_name' => $charaName
             // ]);
+
             DB::table('movie_actors')->insert([
-                'movie_id' => $latestId,
-                'actor_id' => $actorId,
+                'movie_id' => $id,
+                'actor_id' => $request->$inputedActor,
                 'character_name' => $charaName
             ]);
 
@@ -191,6 +181,58 @@ class MovieController extends Controller
 
         return redirect('/');
     }
+
+    // public function update(Request $request, $id){
+    //     $this->validate($request, [
+    //         'title' => 'required | min:2 | max:50',
+    //         'desc' => 'required | min:8',
+    //         'director' => 'required | min:3',
+    //         'date' => 'required',
+    //         'img' => 'required | mimes:jpeg,jpg,png,gif',
+    //         'background' => 'required | mimes:jpeg,jpg,png,gif'
+    //     ]);
+
+    //     $image = $request->file('img');
+    //     $bg = $request->file('background');
+
+    //     Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
+    //     Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
+
+    //     $movie = Movie::find($id);
+    //     $movie->title = $request->title;
+    //     $movie->desc = $request->desc;
+    //     $movie->director = $request->director;
+    //     $movie->date = $request->date;
+    //     $movie->img = $image->getClientOriginalName();
+    //     $movie->background = $bg->getClientOriginalName();
+
+    //     $genres = $request->genres;
+
+    //     $movie->movie_genres()->delete();
+    //     $movie->movie_actors()->delete();
+
+    //     foreach ($genres as $gId){
+    //         $genreModel = Genre::find($gId);
+    //         $movie->movie_genres()->save($genreModel);
+    //     }
+        
+    //     $ctr = 1;
+
+    //     do{
+    //         $inputtedActor = 'actor/'.$ctr;
+    //         $inputtedCharacter = 'character_'.$ctr;
+
+    //         $movie->movie_actors()->save([
+    //             'actor_id' => $request->$inputtedActor,
+    //             'character_name' => $request->$inputtedCharacter,
+    //         ]);
+
+    //         $ctr++;
+    //         $additional = 'actor/'.$ctr;
+    //     } while($request->$additional);
+
+    //     $movie->save();
+    // }
 
     public function delete($id){
         $movie = Movie::find($id);

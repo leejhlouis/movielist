@@ -50,7 +50,7 @@
 @section('content')
     <div class="isi">
         <h3><b>Add Movie</b></h3>
-        <form action={{url('/movies/update/{id}')}} method="POST" enctype="multipart/form-data">
+        <form action={{url('/movies/update/'.$movie->id)}} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
                 <div class="mb-3">
@@ -66,7 +66,7 @@
                     <br>
                     <select id="genre" name="genres[]" multiple data-actions-box="true" class="selectpicker">
                         @foreach ($movieGenre as $g)
-                            <option value="{{$g->name}}">{{$g->name}}</option>
+                            <option value="{{$g->id}}">{{$g->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -81,10 +81,10 @@
                                     {{-- pengen masukin nama actornya ke inserrt trs pake tag select tapi gimana ya wkwk --}}
                                     <label class="turunwoi" for="actor/{{$i}}">Actor</label>
                                     <select name="actor/{{$i}}" class="form-select" aria-label="Default select example">
-                                        <option value="{{$item->actor->name}}" selected>{{$item->actor->name}}</option>
+                                        <option value="{{$item->actor->id}}" selected>{{$item->actor->name}}</option>
                                         @foreach ($movieActor as $a)
                                             @if ($a->name != $item->actor->name)
-                                                <option value="{{$a->name}}">{{$a->name}}</option>
+                                                <option value="{{$a->id}}">{{$a->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -171,7 +171,7 @@
                         <select name="actor/` + count + `" class="form-select" aria-label="Default select example">
                             <option selected disabled>Open this selected menu</option>
                                 @foreach ($movieActor as $a)
-                                    <option value="{{$a->name}}">{{$a->name}}</option>
+                                    <option value="{{$a->id}}">{{$a->name}}</option>
                                 @endforeach
                         </select>
                     </div>

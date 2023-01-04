@@ -22,6 +22,7 @@ Route::get('/home', [MovieController::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'details']);
 Route::get('/insert', [MovieController::class, 'showActorInInsert']);
 Route::post('/insert', [MovieController::class, 'addMovie']);
+
 Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
 Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
 
