@@ -57,6 +57,7 @@ class MovieController extends Controller
             'desc' => 'required | min:8',
             'director' => 'required | min:3',
             'date' => 'required',
+            'genre' => 'required',
             'img' => 'required | mimes:jpeg,jpg,png,gif',
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
@@ -124,6 +125,7 @@ class MovieController extends Controller
             'desc' => 'required | min:8',
             'director' => 'required | min:3',
             'date' => 'required',
+            'genre' => 'required',
             'img' => 'required | mimes:jpeg,jpg,png,gif',
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
@@ -162,7 +164,7 @@ class MovieController extends Controller
 
             $inputedCharacter = 'character_'.$ctr;
             $charaName = $request->$inputedCharacter;
-            
+
             // DB::table('movie_actors')->where('movie_id', $request->route('id'))->update([
             //     'movie_id' => $latestId,
             //     'actor_id' => $actorId,
@@ -215,7 +217,7 @@ class MovieController extends Controller
     //         $genreModel = Genre::find($gId);
     //         $movie->movie_genres()->save($genreModel);
     //     }
-        
+
     //     $ctr = 1;
 
     //     do{

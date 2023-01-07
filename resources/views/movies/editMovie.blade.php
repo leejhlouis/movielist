@@ -56,10 +56,16 @@
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" value="{{$movie->title}}" class="form-control" id="title" name="title">
+                    @error('title')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="desc" class="form-label">Description</label>
                     <textarea class="form-control" id="desc" name="desc" rows="3">{{$movie->description}}</textarea>
+                    @error('desc')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="mb-3 add">
                     <label for="genre" class="form-label">Genre</label>
@@ -69,6 +75,9 @@
                             <option value="{{$g->id}}">{{$g->name}}</option>
                         @endforeach
                     </select>
+                    @error('genre')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="">Actors</label>
@@ -138,18 +147,30 @@
                 <div class="mb-3">
                     <label for="director" class="form-label">Director</label>
                     <input value="{{$movie->director}}" type="text" class="form-control" id="director" name="director">
+                    @error('director')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">Release Date</label>
                     <input value="{{date('Y-m-d',strtotime($movie->release_date))}}" type="date" class="form-control" id="date" name="date">
+                    @error('date')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Image Url</label>
                     <input type="file" class="form-control" id="img" name="img">
+                    @error('img')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="background" class="form-label">Background Url</label>
                     <input type="file" class="form-control" id="background" name="background">
+                    @error('background')
+                        {{$message}}
+                    @enderror
                 </div>
                 <div class="d-grid">
                     <input class="btn btn-danger" type="submit"></input>

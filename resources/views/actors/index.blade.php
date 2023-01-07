@@ -27,7 +27,7 @@
                         <input class="form-control me-2 bg-gray border-0" name="search" type="search" placeholder="Search actors..." aria-label="Search actors">
                     </form>
                     @if (Auth::user() && Auth::user()->is_admin)
-                        <a href="/actors/insert" class="btn btn-danger d-flex ms-3">
+                        <a href="/actors/insertactor" class="btn btn-danger d-flex ms-3">
                             <i class="bi bi-plus me-2"></i>
                             <p class="mb-0">Add Actor</p>
                         </a>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </a>
-                
+
             @endforeach
         </div>
     </div>
