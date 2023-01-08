@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [MovieController::class, 'index']);
+
 Route::get('/home', [MovieController::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'details']);
 
@@ -45,6 +46,8 @@ Route::group(['middleware' => 'user'], function(){
         Route::get('/add/{id}', [WatchlistController::class, 'add']);
         Route::get('/remove/{id}', [WatchlistController::class, 'remove']);
     });
+    Route::get('/profile', [UserController::class, 'profile']);
+    Route::post('/profile', [UserController::class, 'updateProfile']);
 });
 
 Route::group(['middleware' => 'admin'], function(){
