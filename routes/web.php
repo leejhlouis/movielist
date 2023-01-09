@@ -56,6 +56,8 @@ Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
 
 Route::get('/actors/insertactor', [ActorController::class, 'insert']);
 Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
+Route::get('/actors/update/{id}', [ActorController::class, 'update']);
+Route::post('/actors/update/{id}', [ActorController::class, 'updateDo']);
 
 Route::group(['middleware' => 'admin'], function(){
 
