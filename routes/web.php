@@ -54,6 +54,9 @@ Route::get('/insert', [MovieController::class, 'showActorInInsert']);
 Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
 Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
 
+Route::get('/actors/insertactor', [ActorController::class, 'insert']);
+Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
+
 Route::group(['middleware' => 'admin'], function(){
 
     Route::prefix('movies')->group(function () {
@@ -66,9 +69,6 @@ Route::group(['middleware' => 'admin'], function(){
         // Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
         // Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
     });
-
-    Route::get('/actors/insertactor', [ActorController::class, 'insert']);
-    Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
 
     Route::prefix('actors')->group(function () {
         // Route::get('/insert', [ActorController::class, 'insert']);
