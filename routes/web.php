@@ -50,25 +50,32 @@ Route::group(['middleware' => 'user'], function(){
     Route::post('/profile', [UserController::class, 'updateProfile']);
 });
 
+Route::get('/insert', [MovieController::class, 'showActorInInsert']);
+Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
+Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
+
 Route::group(['middleware' => 'admin'], function(){
 
     Route::prefix('movies')->group(function () {
-        Route::get('/insert', [MovieController::class, 'insert']);
+        // Route::get('/insert', [MovieController::class, 'insert']);
         // Route::get('/update/{id}', [MovieController::class, 'update']);
         Route::get('/delete/{id}', [MovieController::class, 'delete']);
-        Route::get('/insert', [MovieController::class, 'showActorInInsert']);
+        // Route::get('/insert', [MovieController::class, 'showActorInInsert']);
         Route::post('/insert', [MovieController::class, 'addMovie']);
 
-        Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
-        Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
+        // Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
+        // Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
     });
+
+    Route::get('/actors/insertactor', [ActorController::class, 'insert']);
+    Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
 
     Route::prefix('actors')->group(function () {
         // Route::get('/insert', [ActorController::class, 'insert']);
         // Route::get('/update/{id}', [ActorController::class, 'update']);
         Route::get('/delete/{id}', [ActorController::class, 'delete']);
-        Route::get('/actors/insertactor', [ActorController::class, 'insert']);
-        Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
+        // Route::get('/actors/insertactor', [ActorController::class, 'insert']);
+        // Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
         Route::get('/actors/update/{id}', [ActorController::class, 'update']);
         Route::post('/actors/update/{id}', [ActorController::class, 'updateDo']);
     });
