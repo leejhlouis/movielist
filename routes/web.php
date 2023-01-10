@@ -20,12 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MovieController::class, 'index']);
 
 Route::get('/home', [MovieController::class, 'index']);
-Route::get('/movies/{id}', [MovieController::class, 'details']);
-
+Route::get('/movies/{id}', [MovieController::class, 'details'])->whereNumber('id');
+Route::post('/edit', [MovieController::class, 'showData']);
 
 Route::get('/actors', [ActorController::class, 'index']);
-
-Route::get('/actors/{id}', [ActorController::class, 'details']);
+Route::get('/actors/{id}', [ActorController::class, 'details'])->whereNumber('id');
 
 
 Route::group(['middleware' => 'guest'], function(){
@@ -42,9 +41,9 @@ Route::group(['middleware' => 'auth'], function(){
 Route::group(['middleware' => 'user'], function(){
     Route::prefix('watchlist')->group(function () {
         Route::get('/', [WatchlistController::class, 'index']);
-        Route::put('/{id}', [WatchlistController::class, 'updateStatus']);
-        Route::get('/add/{id}', [WatchlistController::class, 'add']);
-        Route::get('/remove/{id}', [WatchlistController::class, 'remove']);
+        Route::put('/{id}', [WatchlistController::class, 'updateStatus'])->whereNumber('id');
+        Route::get('/add/{id}', [WatchlistController::class, 'add'])->whereNumber('id');
+        Route::get('/remove/{id}', [WatchlistController::class, 'remove'])->whereNumber('id');
     });
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/profile', [UserController::class, 'updateProfile']);

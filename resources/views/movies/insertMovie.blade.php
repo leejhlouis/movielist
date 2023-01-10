@@ -3,7 +3,6 @@
 @section('style')
 <style>
     .isi{
-        width: 85%;
         /* background-color: orange; */
         margin: 0 auto;
         margin-top: 3%;
@@ -45,23 +44,27 @@
 @endsection
 
 @section('content')
-    <div class="isi">
-        <h3><b>Add Movie</b></h3>
-        <form action={{url('/insert')}} method="POST" enctype="multipart/form-data">
+    <div class="isi container">
+        <h3 class="mb-5"><b>Add Movie</b></h3>
+        <form action={{ url('/movies/insert') }} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" name="title">
                     @error('title')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="desc" class="form-label">Description</label>
                     <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
                     @error('desc')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3 add">
@@ -69,11 +72,13 @@
                     <br>
                     <select id="genre" name="genres[]" multiple data-actions-box="true" class="selectpicker">
                         @foreach ($genres as $g)
-                            <option value="{{$g->name}}">{{$g->name}}</option>
+                            <option value="{{ $g->id }}">{{ $g->name }}</option>
                         @endforeach
                     </select>
-                    @error('genre')
-                        {{$message}}
+                    @error('genres')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
@@ -87,7 +92,7 @@
                                 <select name="actor/1" class="form-select" aria-label="Default select example">
                                     <option selected disabled>Open this selected menu</option>
                                     @foreach ($actors as $a)
-                                        <option value="{{$a->name}}">{{$a->name}}</option>
+                                        <option value="{{$a->id}}">{{$a->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -103,7 +108,7 @@
                                 <select name="actor/2" class="form-select" aria-label="Default select example">
                                     <option selected disabled>Open this selected menu</option>
                                     @foreach ($actors as $a)
-                                        <option value="{{$a->name}}">{{$a->name}}</option>
+                                        <option value="{{$a->id}}">{{$a->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -114,39 +119,47 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="button" id="addMore" class="btn btn-primary">Add More</button>
+                        <button type="button" id="addMore" class="btn btn-danger">Add More</button>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="director" class="form-label">Director</label>
                     <input type="text" class="form-control" id="director" name="director">
                     @error('director')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">Release Date</label>
                     <input type="date" class="form-control" id="date" name="date">
                     @error('date')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="img" class="form-label">Image Url</label>
                     <input type="file" class="form-control" id="img" name="img">
                     @error('img')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="background" class="form-label">Background Url</label>
                     <input type="file" class="form-control" id="background" name="background">
                     @error('background')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="d-grid">
-                    <input class="btn btn-danger" type="submit"></input>
+                    <input class="btn btn-danger" type="submit">
                 </div>
             </div>
         </form>

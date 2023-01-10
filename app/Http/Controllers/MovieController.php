@@ -40,6 +40,11 @@ class MovieController extends Controller
 
     public function details($id){
         $movie = Movie::find($id);
+
+        if (!$movie){
+            return abort(404);            
+        }
+
         $movies = Movie::where('id', '<>', $id)->get();
 
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
@@ -52,9 +57,12 @@ class MovieController extends Controller
     }
 
     public function addMovie(Request $request){
+        // Belum validasi aktor & genre
+
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
             'desc' => 'required | min:8',
+            'genres' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
             'genre' => 'required',
@@ -65,48 +73,45 @@ class MovieController extends Controller
         $image = $request->file('img');
         $bg = $request->file('background');
 
-        Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
-        Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
+        $imageFilename = time().'-'.$image->getClientOriginalName();
+        $bgFilename = time().'-'.$bg->getClientOriginalName();
+
+        Storage::putFileAs('public/movies/thumbnail/', $image, $imageFilename);
+        Storage::putFileAs('public/movies/background/', $bg, $bgFilename);
 
         DB::table('movies')->insert([
             'title' => $request->title,
             'description' => $request->desc,
             'director' => $request->director,
             'release_date' => $request->date,
-            'thumbnail' => $image->getClientOriginalName(),
-            'background' => $bg->getClientOriginalName(),
+            'thumbnail' => $imageFilename,
+            'background' => $bgFilename,
         ]);
 
-        $latestId = Movie::all()->last()->id;
+        $movieId = Movie::all()->last()->id;
 
-        $genres = $request->genres;
-
-        foreach($genres as $g){
-            $getGenre = DB::table('genres')->where('name', $g)->first();
-            $getGenreId = $getGenre->id;
-
+        foreach($request->genres as $g){
             DB::table('movie_genres')->insert([
-                'genre_id' => $getGenreId,
-                'movie_id' => $latestId
+                'movie_id' => $movieId,
+                'genre_id' => $g
             ]);
         }
 
         $ctr = 1;
-        do{
-            $inputedActor = 'actor/'.$ctr;
-            $actorId = DB::table('actors')->where('name', $request->$inputedActor)->first()->id;
+        do {
+            $inputtedActor = 'actor/'.$ctr;
+            $inputtedCharacter = 'character_'.$ctr;
 
-            $inputedCharacter = 'character_'.$ctr;
-            $charaName = $request->$inputedCharacter;
             DB::table('movie_actors')->insert([
-                'movie_id' => $latestId,
-                'actor_id' => $actorId,
-                'character_name' => $charaName
+                'movie_id' => $movieId,
+                'actor_id' => $request->$inputtedActor,
+                'character_name' => $request->$inputtedCharacter
             ]);
 
             $ctr++;
-            $additional = 'actor/'.$ctr;
-        }while($request->$additional);
+            $next = 'actor/'.$ctr;
+        } while($request->$next);
+
         return redirect('/');
     }
 
