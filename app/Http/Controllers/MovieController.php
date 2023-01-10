@@ -50,7 +50,7 @@ class MovieController extends Controller
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
     }
 
-    public function showActorInInsert(){
+    public function showInsertPage(){
         $actors = Actor::all();
         $genres = Genre::all();
         return view('movies.insertMovie', ['actors' => $actors, 'genres' => $genres]);
@@ -61,12 +61,11 @@ class MovieController extends Controller
 
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
-            'desc' => 'required | min:8',
+            'description' => 'required | min:8',
             'genres' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
-            'genre' => 'required',
-            'img' => 'required | mimes:jpeg,jpg,png,gif',
+            'image' => 'required | mimes:jpeg,jpg,png,gif',
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
 
@@ -115,11 +114,11 @@ class MovieController extends Controller
         return redirect('/');
     }
 
-    public function showData($id){
-        //nanti disini diisi sama actor dan genre dari id yang dikirim
+    public function showUpdatePage($id){
         $movie = Movie::find($id);
         $genres = Genre::all();
         $actors = Actor::all();
+
         return view('movies.editMovie',['movie' => $movie, 'movieGenre' => $genres, 'movieActor' => $actors]);
 
     }

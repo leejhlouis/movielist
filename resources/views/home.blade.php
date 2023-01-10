@@ -185,7 +185,7 @@
 
         @if (Auth::user() && Auth::user()->is_admin)
             <div class="d-flex justify-content-end mb-4">
-                <a href="/insert" class="btn btn-danger d-flex">
+                <a href="/movies/insert" class="btn btn-danger d-flex">
                     <i class="bi bi-plus me-2"></i>
                     <p class="mb-0">Add Movie</p>
                 </a>

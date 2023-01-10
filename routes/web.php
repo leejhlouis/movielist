@@ -21,11 +21,9 @@ Route::get('/', [MovieController::class, 'index']);
 
 Route::get('/home', [MovieController::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'details'])->whereNumber('id');
-Route::post('/edit', [MovieController::class, 'showData']);
 
 Route::get('/actors', [ActorController::class, 'index']);
 Route::get('/actors/{id}', [ActorController::class, 'details'])->whereNumber('id');
-
 
 Route::group(['middleware' => 'guest'], function(){
     Route::get('/login', [UserController::class, 'login'])->name('login');
@@ -36,6 +34,12 @@ Route::group(['middleware' => 'guest'], function(){
 
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/logout', [UserController::class, 'logout']);
+    
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [UserController::class, 'profile']);
+        Route::post('/', [UserController::class, 'updateProfile']);
+
+    });
 });
 
 Route::group(['middleware' => 'user'], function(){
@@ -45,37 +49,28 @@ Route::group(['middleware' => 'user'], function(){
         Route::get('/add/{id}', [WatchlistController::class, 'add'])->whereNumber('id');
         Route::get('/remove/{id}', [WatchlistController::class, 'remove'])->whereNumber('id');
     });
-    Route::get('/profile', [UserController::class, 'profile']);
-    Route::post('/profile', [UserController::class, 'updateProfile']);
 });
 
-Route::get('/insert', [MovieController::class, 'showActorInInsert']);
-Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
-Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
-
-Route::get('/actors/insertactor', [ActorController::class, 'insert']);
-Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
 
 Route::group(['middleware' => 'admin'], function(){
 
     Route::prefix('movies')->group(function () {
-        // Route::get('/insert', [MovieController::class, 'insert']);
-        // Route::get('/update/{id}', [MovieController::class, 'update']);
-        Route::get('/delete/{id}', [MovieController::class, 'delete']);
-        // Route::get('/insert', [MovieController::class, 'showActorInInsert']);
+        Route::get('/insert', [MovieController::class, 'showInsertPage']);
         Route::post('/insert', [MovieController::class, 'addMovie']);
 
-        // Route::get('/movies/update/{id}', [MovieController::class, 'showData']);
-        // Route::post('/movies/update/{id}', [MovieController::class, 'updateData']);
+        Route::get('/update/{id}', [MovieController::class, 'showUpdatePage']);
+        Route::post('/update/{id}', [MovieController::class, 'updateData']);
+
+        Route::get('/delete/{id}', [MovieController::class, 'delete']);
     });
 
     Route::prefix('actors')->group(function () {
-        // Route::get('/insert', [ActorController::class, 'insert']);
-        // Route::get('/update/{id}', [ActorController::class, 'update']);
+        Route::get('/insert', [ActorController::class, 'insert']);
+        Route::post('/insert', [ActorController::class, 'insertDo']);
+
+        Route::get('/update/{id}', [ActorController::class, 'update']);
+        Route::post('/update/{id}', [ActorController::class, 'updateDo']);
+
         Route::get('/delete/{id}', [ActorController::class, 'delete']);
-        // Route::get('/actors/insertactor', [ActorController::class, 'insert']);
-        // Route::post('/actors/insertactor', [ActorController::class, 'insertDo']);
-        Route::get('/actors/update/{id}', [ActorController::class, 'update']);
-        Route::post('/actors/update/{id}', [ActorController::class, 'updateDo']);
     });
 });

@@ -34,7 +34,7 @@
 @section('content')
     <div class="isi">
         <h3><b>Add Actor</b></h3>
-        <form action={{url('/actors/insertactor')}} method="POST" enctype="multipart/form-data">
+        <form action={{url('/actors/insert')}} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
                 <div class="mb-3">
