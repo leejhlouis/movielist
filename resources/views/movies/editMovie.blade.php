@@ -46,7 +46,7 @@
     $i = 1;
 @endphp
 @section('content')
-    <div class="isi">
+    <div class="isi container">
         <h3 class="mb-5"><b>Edit Movie</b></h3>
         <form action={{url('/movies/update/'.$movie->id)}} method="POST" enctype="multipart/form-data">
             @csrf
