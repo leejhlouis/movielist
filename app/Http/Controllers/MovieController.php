@@ -60,7 +60,9 @@ class MovieController extends Controller
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
             'description' => 'required | min:8',
-            'genres' => 'required',
+            'genres' => 'required|array',
+            'actor.*.id' => 'required',
+            'actor.*.character_name' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
             'image' => 'required | mimes:jpeg,jpg,png,gif',
@@ -94,22 +96,15 @@ class MovieController extends Controller
             ]);
         }
 
-        $ctr = 1;
-        do {
-            $inputtedActor = 'actor/'.$ctr;
-            $inputtedCharacter = 'character_'.$ctr;
-
+        for ($i = 0; $i < count($request->actor); $i++){
             DB::table('movie_actors')->insert([
                 'movie_id' => $movieId,
-                'actor_id' => $request->$inputtedActor,
-                'character_name' => $request->$inputtedCharacter
+                'actor_id' => $request->actor[$i]['id'],
+                'character_name' => $request->actor[$i]['character_name']
             ]);
+        }
 
-            $ctr++;
-            $next = 'actor/'.$ctr;
-        } while($request->$next);
-
-        return redirect('/');
+        return redirect('/movies/'.$movieId);
     }
 
     public function showUpdatePage($id){
@@ -118,16 +113,17 @@ class MovieController extends Controller
         $actors = Actor::all();
 
         return view('movies.editMovie',['movie' => $movie, 'movieGenre' => $genres, 'movieActor' => $actors]);
-
     }
 
     public function updateData(Request $request, $id){
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
             'description' => 'required | min:8',
+            'genres' => 'required|array',
+            'actor.*.id' => 'required',
+            'actor.*.character_name' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
-            'genres' => 'required',
             'image' => 'required | mimes:jpeg,jpg,png,gif',
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
@@ -150,34 +146,23 @@ class MovieController extends Controller
             'background' => $bgFilename,
         ]);
 
-        $genres = $request->genres;
-
         MovieGenre::where('movie_id', '=', $id)->delete();
         MovieActor::where('movie_id', '=', $id)->delete();
 
-        foreach($genres as $genreId){
+        foreach($request->genres as $genreId){
             DB::table('movie_genres')->insert([
                 'genre_id' => $genreId,
                 'movie_id' => $id
             ]);
         }
 
-        $ctr = 1;
-        do{
-            $inputedActor = 'actor/'.$ctr;
-
-            $inputedCharacter = 'character_'.$ctr;
-            $charaName = $request->$inputedCharacter;
-
+        for ($i = 0; $i < count($request->actor); $i++){
             DB::table('movie_actors')->insert([
                 'movie_id' => $id,
-                'actor_id' => $request->$inputedActor,
-                'character_name' => $charaName
+                'actor_id' => $request->actor[$i]['id'],
+                'character_name' => $request->actor[$i]['character_name']
             ]);
-
-            $ctr++;
-            $additional = 'actor/'.$ctr;
-        }while($request->$additional);
+        }
 
         return redirect('/movies/'.$id);
     }

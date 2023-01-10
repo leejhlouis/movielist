@@ -69,7 +69,7 @@ class ActorController extends Controller
         $actor->popularity = $request->popularity;
         $actor->save();
 
-        return redirect('/actors');
+        return redirect('/actors/'.$actor->id);
     }
 
     public function update($id){
