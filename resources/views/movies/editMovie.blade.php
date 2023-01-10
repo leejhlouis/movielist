@@ -1,11 +1,9 @@
 @extends('layouts.app')
-{{-- masi ngebug, pas di klik submit malah /update, pdhal expect /movies/update/{id} --}}
 
 @section('style')
 <style>
     .isi{
         width: 85%;
-        /* background-color: orange; */
         margin: 0 auto;
         margin-top: 3%;
     }
@@ -49,7 +47,7 @@
 @endphp
 @section('content')
     <div class="isi">
-        <h3><b>Add Movie</b></h3>
+        <h3 class="mb-5"><b>Edit Movie</b></h3>
         <form action={{url('/movies/update/'.$movie->id)}} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
@@ -61,9 +59,9 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="desc" class="form-label">Description</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="3">{{$movie->description}}</textarea>
-                    @error('desc')
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3">{{$movie->description}}</textarea>
+                    @error('description')
                         {{$message}}
                     @enderror
                 </div>
@@ -75,7 +73,7 @@
                             <option value="{{$g->id}}">{{$g->name}}</option>
                         @endforeach
                     </select>
-                    @error('genre')
+                    @error('genres')
                         {{$message}}
                     @enderror
                 </div>
@@ -159,9 +157,9 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="img" class="form-label">Image Url</label>
-                    <input type="file" class="form-control" id="img" name="img">
-                    @error('img')
+                    <label for="image" class="form-label">Image Url</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                    @error('image')
                         {{$message}}
                     @enderror
                 </div>
@@ -173,7 +171,7 @@
                     @enderror
                 </div>
                 <div class="d-grid">
-                    <input class="btn btn-danger" type="submit"></input>
+                    <input class="btn btn-danger" type="submit">
                 </div>
             </div>
         </form>
