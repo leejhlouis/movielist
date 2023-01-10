@@ -135,16 +135,19 @@ class MovieController extends Controller
         $image = $request->file('image');
         $bg = $request->file('background');
 
-        Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
-        Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
+        $imageFilename = time().'-'.$image->getClientOriginalName();
+        $bgFilename = time().'-'.$bg->getClientOriginalName();
+
+        Storage::putFileAs('public/movies/thumbnail/', $image, $imageFilename);
+        Storage::putFileAs('public/movies/background/', $bg, $bgFilename);
 
         DB::table('movies')->where('id', $request->route('id'))->update([
             'title' => $request->title,
             'description' => $request->description,
             'director' => $request->director,
             'release_date' => $request->date,
-            'thumbnail' => $image->getClientOriginalName(),
-            'background' => $bg->getClientOriginalName(),
+            'thumbnail' => $imageFilename,
+            'background' => $bgFilename,
         ]);
 
         $genres = $request->genres;

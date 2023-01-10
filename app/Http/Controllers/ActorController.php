@@ -54,6 +54,9 @@ class ActorController extends Controller
             'popularity' => 'required | numeric',
             'gender' => 'required'
         ]);
+
+        $imageFilename = time().'-'.$request->file('image')->getClientOriginalName();
+
         $actor = new Actor();
 
         $actor->name = $request->name;
@@ -61,7 +64,7 @@ class ActorController extends Controller
         $actor->biography = $request->biography;
         $actor->dob = $request->date_of_birth;
         $actor->place_of_birth = $request->place_of_birth;
-        $actor->image_url = $request->file('image')->getClientOriginalName();
+        $actor->image_url = $imageFilename;
         Storage::putFileAs('public/actors/', $request->file('image'), $actor->image_url);
         $actor->popularity = $request->popularity;
         $actor->save();
@@ -85,8 +88,9 @@ class ActorController extends Controller
             'gender' => 'required'
         ]);
 
-        $image = $request->file('image');
-        Storage::putFileAs('public/actors/', $image, $image->getClientOriginalName());
+        $imageFilename = time().'-'.$request->file('image')->getClientOriginalName();
+
+        Storage::putFileAs('public/actors/', $request->file('image'), $imageFilename);
 
         DB::table('actors')->where('id', $id)->update([
             'name' => $request->name,
@@ -94,7 +98,7 @@ class ActorController extends Controller
             'gender' => $request->gender,
             'dob' => $request->date_of_birth,
             'place_of_birth' => $request->place_of_birth,
-            'image_url' => $image->getClientOriginalName(),
+            'image_url' => $imageFilename,
             'popularity' => $request->popularity
         ]);
 
