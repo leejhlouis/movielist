@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <title>MovieList</title>
     <style>
-
         .movieSpan{
             color: var(--bs-danger);
         }
@@ -21,6 +20,10 @@
 
         .dropdown-menu{
             background: #3f3f3f;
+        }
+
+        .text-muted{
+            color: #aaa!important;
         }
 
         .dropdown-item{

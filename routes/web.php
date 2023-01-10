@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::prefix('profile')->group(function () {
         Route::get('/', [UserController::class, 'profile']);
         Route::post('/', [UserController::class, 'updateProfile']);
-
+        Route::put('/updatePicture', [UserController::class, 'updateProfilePicture']);
     });
 });
 

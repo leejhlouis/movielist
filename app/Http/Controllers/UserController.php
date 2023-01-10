@@ -85,7 +85,17 @@ class UserController extends Controller
             'phone' => $request->phone
         ]);
 
+        return redirect('/profile');
+    }
 
+    public function updateProfilePicture(Request $request){
+        $this->validate($request, [
+            'image_URL' => 'required'
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        $user->img_url = $request->image_URL;
+        $user->save();
 
         return redirect('/profile');
     }
