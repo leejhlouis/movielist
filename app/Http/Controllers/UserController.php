@@ -70,18 +70,18 @@ class UserController extends Controller
 
     public function updateProfile(Request $request){
         $this->validate($request, [
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required | email:rfc,dns',
-            'dob' => 'required',
+            'date_of_birth' => 'required',
             'phone' => 'required | min:5 | max:13'
         ]);
 
         $currentUserId = Auth::user()->id;
 
         DB::table('users')->where('id', $currentUserId)->update([
-            'username' => $request->nama,
+            'username' => $request->name,
             'email' => $request->email,
-            'dob' => $request->dob,
+            'dob' => $request->date_of_birth,
             'phone' => $request->phone
         ]);
 

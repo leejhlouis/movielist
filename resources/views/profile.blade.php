@@ -36,11 +36,11 @@
             <form action="{{url('/profile')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
-                    <label for="nama" class="form-label">Name</label>
+                    <label for="name" class="form-label">Name</label>
                     @auth
-                        <input value="{{Auth::user()->username}}" type="text" class="form-control" id="nama" name="nama" placeholder="Enter your name">
-                        @error('nama')
-                            {{$message}}
+                        <input value="{{Auth::user()->username}}" type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                        @error('name')
+                            <p class="text-danger">{{$message}}</p>
                         @enderror
                     @endauth
                 </div>
@@ -49,16 +49,16 @@
                     @auth
                         <input value="{{Auth::user()->email}}" type="text" class="form-control" id="email" name="email" placeholder="example@mail.com">
                         @error('email')
-                            {{$message}}
+                            <p class="text-danger">{{$message}}</p>
                         @enderror
                     @endauth
                 </div>
                 <div class="mb-3">
-                    <label for="dob" class="form-label">Date of birth</label>
+                    <label for="date_of_birth" class="form-label">Date of birth</label>
                     @auth
-                        <input value="{{ Auth::user()->dob ? date('Y-m-d',strtotime(Auth::user()->dob)) : "" }}" type="date" class="form-control" id="dob" name="dob" >
-                        @error('dob')
-                            {{$message}}
+                        <input value="{{ Auth::user()->dob ? date('Y-m-d',strtotime(Auth::user()->dob)) : "" }}" type="date" class="form-control" id="date_of_birth" name="date_of_birth" >
+                        @error('date_of_birth')
+                            <p class="text-danger">{{$message}}</p>
                         @enderror
                     @endauth
                 </div>
@@ -67,7 +67,7 @@
                     @auth
                         <input value="{{Auth::user()->phone}}" type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
                         @error('phone')
-                            {{$message}}
+                            <p class="text-danger">{{$message}}</p>
                         @enderror
                     @endauth
                 </div>
