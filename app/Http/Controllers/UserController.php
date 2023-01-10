@@ -23,17 +23,8 @@ class UserController extends Controller
         $this->validate($request, [
             'username' => 'required|min:5|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'min:6',
-                'confirmed',
-                'regex:/[A-Za-z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*#?&]/',
-            ]], [
-                'password.regex' => "The :attribute must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
-            ]
-        );
+            'password' => 'required|alpha_num|min:6|confirmed'
+        ]);
 
         $user = new User();
         $user->username = $request->username;
