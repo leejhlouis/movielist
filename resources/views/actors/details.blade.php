@@ -14,8 +14,8 @@
 
 @section('content')
     <div class="container my-5 d-flex gap-5">
-        <div class="w-25" style="height: 300px">
-            <img class="w-100 h-100 border-white border rounded-5" src="{{ url('storage/actors/'.$actor->image_url) }}" alt="" style="object-fit: cover;">
+        <div class="w-25">
+            <img class="border-white border rounded-5" src="{{ url('storage/actors/'.$actor->image_url) }}" alt="" style="object-fit: cover; width: 100%; height: 250px">
 
             <div class="mt-4">
                 <p class="h4 mb-4">Personal info</p>

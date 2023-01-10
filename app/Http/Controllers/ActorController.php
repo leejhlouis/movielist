@@ -46,30 +46,26 @@ class ActorController extends Controller
 
     public function insertDo(Request $request){
         $this->validate($request, [
-            'nama' => 'required | min:3',
-            'bio' => 'required | min:10',
-            'pob' => 'required',
-            'dob' => 'required',
-            'img' => 'required | mimes:jpeg,jpg,png,gif',
+            'name' => 'required | min:3',
+            'biography' => 'required | min:10',
+            'place_of_birth' => 'required',
+            'date_of_birth' => 'required',
+            'image' => 'required | mimes:jpeg,jpg,png,gif',
             'popularity' => 'required | numeric',
             'gender' => 'required'
         ]);
         $actor = new Actor();
 
-        // $image = $request->file('img');
-
-        $actor->name = $request->nama;
+        $actor->name = $request->name;
         $actor->gender = $request->gender;
-        $actor->biography = $request->bio;
-        $actor->dob = $request->dob;
-        $actor->place_of_birth = $request->pob;
-        $actor->image_url = $request->file('img')->getClientOriginalName();
-        Storage::putFileAs('public/actors/', $request->file('img'), $actor->image_url);
+        $actor->biography = $request->biography;
+        $actor->dob = $request->date_of_birth;
+        $actor->place_of_birth = $request->place_of_birth;
+        $actor->image_url = $request->file('image')->getClientOriginalName();
+        Storage::putFileAs('public/actors/', $request->file('image'), $actor->image_url);
         $actor->popularity = $request->popularity;
         $actor->save();
 
-        // $actors = Actor::all();
-        // return view('actors.index', ["actors" => $actors]);
         return redirect('/actors');
     }
 
@@ -80,30 +76,28 @@ class ActorController extends Controller
 
     public function updateDo(Request $request, $id){
         $this->validate($request, [
-            'nama' => 'required | min:3',
-            'bio' => 'required | min:10',
-            'pob' => 'required',
-            'dob' => 'required',
-            'img' => 'required | mimes:jpeg,jpg,png,gif',
+            'name' => 'required | min:3',
+            'biography' => 'required | min:10',
+            'place_of_birth' => 'required',
+            'date_of_birth' => 'required',
+            'image' => 'required | mimes:jpeg,jpg,png,gif',
             'popularity' => 'required | numeric',
             'gender' => 'required'
         ]);
 
-        $image = $request->file('img');
+        $image = $request->file('image');
         Storage::putFileAs('public/actors/', $image, $image->getClientOriginalName());
 
         DB::table('actors')->where('id', $id)->update([
-            'name' => $request->nama,
-            'biography' => $request->bio,
+            'name' => $request->name,
+            'biography' => $request->biography,
             'gender' => $request->gender,
-            'dob' => $request->dob,
-            'place_of_birth' => $request->pob,
+            'dob' => $request->date_of_birth,
+            'place_of_birth' => $request->place_of_birth,
             'image_url' => $image->getClientOriginalName(),
             'popularity' => $request->popularity
         ]);
 
-        // $actors = Actor::all();
-        // return view('actors.index', ["actors" => $actors]);
-        return redirect('/actors');
+        return redirect('/actors/'.$id);
     }
 }
