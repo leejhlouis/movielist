@@ -19,21 +19,30 @@ class UserSeeder extends Seeder
             'username' => 'Admin',
             'email' => 'admin@mail.com',
             'password' => bcrypt("admin"),
-            'is_admin' => '1',
+            'dob' => '1970-01-01',
+            'phone' => '+62 852-9283-2733',
+            'is_admin' => 1,
+            'img_url' => 'user001.jpg',
             'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
             'username' => 'Louis',
             'email' => 'louisgustavo07@gmail.com',
             'password' => bcrypt("2107"),
-            'is_admin' => '0',
+            'dob' => '1970-02-02',
+            'phone' => '+62 895-8482-6846',
+            'is_admin' => 0,
+            'img_url' => 'user002.jpg',
             'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
             'username' => 'Marcello',
             'email' => 'marcelloyoel10@gmail.com',
             'password' => bcrypt("123"),
-            'is_admin' => '0',
+            'dob' => '1970-03-03',
+            'phone' => '+62 812-6846-8482',
+            'is_admin' => 0,
+            'img_url' => 'user002.jpg',
             'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ]
         ]);
