@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'dob' => '1970-01-01',
             'phone' => '+62 852-9283-2733',
             'is_admin' => 1,
-            'img_url' => 'user001.jpg',
+            'img_url' => 'user001.png',
             'date_joined' => Carbon::now()->setTimezone('Asia/Jakarta')
         ],
         [
