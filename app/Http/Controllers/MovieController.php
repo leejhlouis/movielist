@@ -69,7 +69,7 @@ class MovieController extends Controller
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
 
-        $image = $request->file('img');
+        $image = $request->file('image');
         $bg = $request->file('background');
 
         $imageFilename = time().'-'.$image->getClientOriginalName();
@@ -80,7 +80,7 @@ class MovieController extends Controller
 
         DB::table('movies')->insert([
             'title' => $request->title,
-            'description' => $request->desc,
+            'description' => $request->description,
             'director' => $request->director,
             'release_date' => $request->date,
             'thumbnail' => $imageFilename,

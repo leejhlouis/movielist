@@ -59,9 +59,9 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="desc" class="form-label">Description</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
-                    @error('desc')
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    @error('description')
                         <p class="text-danger">
                             {{$message}}
                         </p>
@@ -141,9 +141,9 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="img" class="form-label">Image Url</label>
-                    <input type="file" class="form-control" id="img" name="img">
-                    @error('img')
+                    <label for="image" class="form-label">Image Url</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                    @error('image')
                         <p class="text-danger">
                             {{$message}}
                         </p>
