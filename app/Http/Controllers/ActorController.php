@@ -73,8 +73,13 @@ class ActorController extends Controller
     }
 
     public function update($id){
-        $actors = Actor::find($id);
-        return view('actors.updateActor', ['actors' => $actors]);
+        $actor = Actor::find($id);
+
+        if (!$actor){
+            return abort(404);            
+        }
+
+        return view('actors.updateActor', ['actors' => $actor]);
     }
 
     public function updateDo(Request $request, $id){

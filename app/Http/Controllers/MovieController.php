@@ -109,6 +109,11 @@ class MovieController extends Controller
 
     public function showUpdatePage($id){
         $movie = Movie::find($id);
+
+        if (!$movie){
+            return abort(404);            
+        }
+        
         $genres = Genre::all();
         $actors = Actor::all();
 
