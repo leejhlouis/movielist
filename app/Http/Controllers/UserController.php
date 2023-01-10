@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -70,5 +71,31 @@ class UserController extends Controller
     public function logout(){
         Auth::logout();
         return redirect('/');
+    }
+
+    public function profile(){
+        return view('profile');
+    }
+
+    public function updateProfile(Request $request){
+        $this->validate($request, [
+            'nama' => 'required',
+            'email' => 'required | email:rfc,dns',
+            'dob' => 'required',
+            'phone' => 'required | min:5 | max:13'
+        ]);
+
+        $currentUserId = Auth::user()->id;
+
+        DB::table('users')->where('id', $currentUserId)->update([
+            'username' => $request->nama,
+            'email' => $request->email,
+            'dob' => $request->dob,
+            'phone' => $request->phone
+        ]);
+
+
+
+        return redirect('/profile');
     }
 }

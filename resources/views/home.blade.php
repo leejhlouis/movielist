@@ -76,7 +76,7 @@
                     </div>
                     <h1 class="mb-3 text-shadow fw-bold">{{ $movie->title }}</h1>
                     <p class="text-shadow d-none d-md-block">{{ $movie->description }}</p>
-                    
+
                     @if (Auth::user() && !Auth::user()->is_admin)
                         @if(DB::table('watchlists')->where([['movie_id', '=', $movie->id], ['user_id', '=', Auth::user()->id]])->get()->isEmpty())
                             <a href="/watchlist/add/{{ $movie->id }}" class="btn btn-danger d-flex px-4" style="width: fit-content;">
@@ -151,7 +151,7 @@
                   </form>
             </div>
         </div>
-        
+
         <form id="customizeListForm" class="mt-3" method="GET" action="{{ url('/') }}">
             <fieldset>
                 <ul class="d-flex list-unstyled w-100 flex-wrap mb-4 gap-3 align-items-center">
@@ -185,7 +185,7 @@
 
         @if (Auth::user() && Auth::user()->is_admin)
             <div class="d-flex justify-content-end mb-4">
-                <a href="/movies/insert" class="btn btn-danger d-flex">
+                <a href="/insert" class="btn btn-danger d-flex">
                     <i class="bi bi-plus me-2"></i>
                     <p class="mb-0">Add Movie</p>
                 </a>
@@ -220,12 +220,12 @@
             @empty
                 <div class="alert alert-dark w-100 text-center">
                     No movies found.
-                </div>    
+                </div>
             @endforelse
         </div>
     </div>
 </div>
-    
+
 
 </div>
 
