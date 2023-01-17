@@ -146,7 +146,7 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-4">
-            <p>Showing <span class="fw-bold">{{ $watchlist->firstItem() }}</span> to <span class="fw-bold">{{ $watchlist->lastItem() }}</span> of <span class="fw-bold">{{ $watchlist->total() }}</span> results</p>
+            <p>Showing <span class="fw-bold">{{ $watchlist->firstItem() ? $watchlist->firstItem() : 0 }}</span> to <span class="fw-bold">{{ $watchlist->lastItem() ? $watchlist->lastItem() : 0 }}</span> of <span class="fw-bold">{{ $watchlist->total() }}</span> results</p>
             <nav>
                 <ul class="pagination">
                   <li class="page-item">

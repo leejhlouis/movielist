@@ -40,12 +40,17 @@ class MovieController extends Controller
 
     public function details($id){
         $movie = Movie::find($id);
+
+        if (!$movie){
+            return abort(404);            
+        }
+
         $movies = Movie::where('id', '<>', $id)->get();
 
         return view('movies.details', ['movie' => $movie, 'movies' => $movies]);
     }
 
-    public function showActorInInsert(){
+    public function showInsertPage(){
         $actors = Actor::all();
         $genres = Genre::all();
         return view('movies.insertMovie', ['actors' => $actors, 'genres' => $genres]);
@@ -54,187 +59,118 @@ class MovieController extends Controller
     public function addMovie(Request $request){
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
-            'desc' => 'required | min:8',
+            'description' => 'required | min:8',
+            'genres' => 'required|array',
+            'actor.*.id' => 'required',
+            'actor.*.character_name' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
-            'genre' => 'required',
-            'img' => 'required | mimes:jpeg,jpg,png,gif',
+            'image' => 'required | mimes:jpeg,jpg,png,gif',
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
 
-        $image = $request->file('img');
+        $image = $request->file('image');
         $bg = $request->file('background');
 
-        Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
-        Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
+        $imageFilename = time().'-'.$image->getClientOriginalName();
+        $bgFilename = time().'-'.$bg->getClientOriginalName();
+
+        Storage::putFileAs('public/movies/thumbnail/', $image, $imageFilename);
+        Storage::putFileAs('public/movies/background/', $bg, $bgFilename);
 
         DB::table('movies')->insert([
             'title' => $request->title,
-            'description' => $request->desc,
+            'description' => $request->description,
             'director' => $request->director,
             'release_date' => $request->date,
-            'thumbnail' => $image->getClientOriginalName(),
-            'background' => $bg->getClientOriginalName(),
+            'thumbnail' => $imageFilename,
+            'background' => $bgFilename,
         ]);
 
-        $latestId = Movie::all()->last()->id;
+        $movieId = Movie::all()->last()->id;
 
-        $genres = $request->genres;
-
-        foreach($genres as $g){
-            $getGenre = DB::table('genres')->where('name', $g)->first();
-            $getGenreId = $getGenre->id;
-
+        foreach($request->genres as $g){
             DB::table('movie_genres')->insert([
-                'genre_id' => $getGenreId,
-                'movie_id' => $latestId
+                'movie_id' => $movieId,
+                'genre_id' => $g
             ]);
         }
 
-        $ctr = 1;
-        do{
-            $inputedActor = 'actor/'.$ctr;
-            $actorId = DB::table('actors')->where('name', $request->$inputedActor)->first()->id;
-
-            $inputedCharacter = 'character_'.$ctr;
-            $charaName = $request->$inputedCharacter;
+        for ($i = 0; $i < count($request->actor); $i++){
             DB::table('movie_actors')->insert([
-                'movie_id' => $latestId,
-                'actor_id' => $actorId,
-                'character_name' => $charaName
+                'movie_id' => $movieId,
+                'actor_id' => $request->actor[$i]['id'],
+                'character_name' => $request->actor[$i]['character_name']
             ]);
+        }
 
-            $ctr++;
-            $additional = 'actor/'.$ctr;
-        }while($request->$additional);
-        return redirect('/');
+        return redirect('/movies/'.$movieId);
     }
 
-    public function showData($id){
-        //nanti disini diisi sama actor dan genre dari id yang dikirim
+    public function showUpdatePage($id){
         $movie = Movie::find($id);
+
+        if (!$movie){
+            return abort(404);            
+        }
+        
         $genres = Genre::all();
         $actors = Actor::all();
-        return view('movies.editMovie',['movie' => $movie, 'movieGenre' => $genres, 'movieActor' => $actors]);
 
+        return view('movies.editMovie',['movie' => $movie, 'movieGenre' => $genres, 'movieActor' => $actors]);
     }
 
     public function updateData(Request $request, $id){
         $this->validate($request, [
             'title' => 'required | min:2 | max:50',
-            'desc' => 'required | min:8',
+            'description' => 'required | min:8',
+            'genres' => 'required|array',
+            'actor.*.id' => 'required',
+            'actor.*.character_name' => 'required',
             'director' => 'required | min:3',
             'date' => 'required',
-            'genre' => 'required',
-            'img' => 'required | mimes:jpeg,jpg,png,gif',
+            'image' => 'required | mimes:jpeg,jpg,png,gif',
             'background' => 'required | mimes:jpeg,jpg,png,gif'
         ]);
 
-        $image = $request->file('img');
+        $image = $request->file('image');
         $bg = $request->file('background');
 
-        Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
-        Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
+        $imageFilename = time().'-'.$image->getClientOriginalName();
+        $bgFilename = time().'-'.$bg->getClientOriginalName();
+
+        Storage::putFileAs('public/movies/thumbnail/', $image, $imageFilename);
+        Storage::putFileAs('public/movies/background/', $bg, $bgFilename);
 
         DB::table('movies')->where('id', $request->route('id'))->update([
             'title' => $request->title,
-            'description' => $request->desc,
+            'description' => $request->description,
             'director' => $request->director,
             'release_date' => $request->date,
-            'thumbnail' => $image->getClientOriginalName(),
-            'background' => $bg->getClientOriginalName(),
+            'thumbnail' => $imageFilename,
+            'background' => $bgFilename,
         ]);
-
-        $genres = $request->genres;
 
         MovieGenre::where('movie_id', '=', $id)->delete();
         MovieActor::where('movie_id', '=', $id)->delete();
 
-        foreach($genres as $genreId){
+        foreach($request->genres as $genreId){
             DB::table('movie_genres')->insert([
                 'genre_id' => $genreId,
                 'movie_id' => $id
             ]);
         }
 
-        $ctr = 1;
-        do{
-            $inputedActor = 'actor/'.$ctr;
-            // $actorId = DB::table('actors')->where('name', $request->$inputedActor)->first()->id;
-
-            $inputedCharacter = 'character_'.$ctr;
-            $charaName = $request->$inputedCharacter;
-
-            // DB::table('movie_actors')->where('movie_id', $request->route('id'))->update([
-            //     'movie_id' => $latestId,
-            //     'actor_id' => $actorId,
-            //     'character_name' => $charaName
-            // ]);
-
+        for ($i = 0; $i < count($request->actor); $i++){
             DB::table('movie_actors')->insert([
                 'movie_id' => $id,
-                'actor_id' => $request->$inputedActor,
-                'character_name' => $charaName
+                'actor_id' => $request->actor[$i]['id'],
+                'character_name' => $request->actor[$i]['character_name']
             ]);
+        }
 
-            $ctr++;
-            $additional = 'actor/'.$ctr;
-        }while($request->$additional);
-
-        return redirect('/');
+        return redirect('/movies/'.$id);
     }
-
-    // public function update(Request $request, $id){
-    //     $this->validate($request, [
-    //         'title' => 'required | min:2 | max:50',
-    //         'desc' => 'required | min:8',
-    //         'director' => 'required | min:3',
-    //         'date' => 'required',
-    //         'img' => 'required | mimes:jpeg,jpg,png,gif',
-    //         'background' => 'required | mimes:jpeg,jpg,png,gif'
-    //     ]);
-
-    //     $image = $request->file('img');
-    //     $bg = $request->file('background');
-
-    //     Storage::putFileAs('public/movies/thumbnail/', $image, $image->getClientOriginalName());
-    //     Storage::putFileAs('public/movies/background/', $bg, $bg->getClientOriginalName());
-
-    //     $movie = Movie::find($id);
-    //     $movie->title = $request->title;
-    //     $movie->desc = $request->desc;
-    //     $movie->director = $request->director;
-    //     $movie->date = $request->date;
-    //     $movie->img = $image->getClientOriginalName();
-    //     $movie->background = $bg->getClientOriginalName();
-
-    //     $genres = $request->genres;
-
-    //     $movie->movie_genres()->delete();
-    //     $movie->movie_actors()->delete();
-
-    //     foreach ($genres as $gId){
-    //         $genreModel = Genre::find($gId);
-    //         $movie->movie_genres()->save($genreModel);
-    //     }
-
-    //     $ctr = 1;
-
-    //     do{
-    //         $inputtedActor = 'actor/'.$ctr;
-    //         $inputtedCharacter = 'character_'.$ctr;
-
-    //         $movie->movie_actors()->save([
-    //             'actor_id' => $request->$inputtedActor,
-    //             'character_name' => $request->$inputtedCharacter,
-    //         ]);
-
-    //         $ctr++;
-    //         $additional = 'actor/'.$ctr;
-    //     } while($request->$additional);
-
-    //     $movie->save();
-    // }
 
     public function delete($id){
         $movie = Movie::find($id);

@@ -1,11 +1,9 @@
 @extends('layouts.app')
-{{-- masi ngebug, pas di klik submit malah /update, pdhal expect /movies/update/{id} --}}
 
 @section('style')
 <style>
     .isi{
         width: 85%;
-        /* background-color: orange; */
         margin: 0 auto;
         margin-top: 3%;
     }
@@ -44,12 +42,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 @endsection
-@php
-    $i = 1;
-@endphp
+
 @section('content')
-    <div class="isi">
-        <h3><b>Add Movie</b></h3>
+    <div class="isi container">
+        <h3 class="mb-5"><b>Edit Movie</b></h3>
         <form action={{url('/movies/update/'.$movie->id)}} method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-1">
@@ -57,14 +53,18 @@
                     <label for="title" class="form-label">Title</label>
                     <input type="text" value="{{$movie->title}}" class="form-control" id="title" name="title">
                     @error('title')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="desc" class="form-label">Description</label>
-                    <textarea class="form-control" id="desc" name="desc" rows="3">{{$movie->description}}</textarea>
-                    @error('desc')
-                        {{$message}}
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3">{{$movie->description}}</textarea>
+                    @error('description')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3 add">
@@ -75,21 +75,20 @@
                             <option value="{{$g->id}}">{{$g->name}}</option>
                         @endforeach
                     </select>
-                    @error('genre')
-                        {{$message}}
+                    @error('genres')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="">Actors</label>
-                    {{-- disini buat isi actor dan nambahin actor pake button --}}
                     <div class="container" id="container">
                         @foreach ($movie->movie_actors as $item)
-                            {{-- tinggal ubah name actor/1 nya jadi apa gitu biar berubah sesuai loop --}}
                             <div class="row">
                                 <div class="col-6">
-                                    {{-- pengen masukin nama actornya ke inserrt trs pake tag select tapi gimana ya wkwk --}}
-                                    <label class="turunwoi" for="actor/{{$i}}">Actor</label>
-                                    <select name="actor/{{$i}}" class="form-select" aria-label="Default select example">
+                                    <label class="turunwoi" for="actor[{{ $loop->index }}][id]">Actor</label>
+                                    <select name="actor[{{ $loop->index }}][id]" class="form-select" aria-label="Default select example">
                                         <option value="{{$item->actor->id}}" selected>{{$item->actor->name}}</option>
                                         @foreach ($movieActor as $a)
                                             @if ($a->name != $item->actor->name)
@@ -97,83 +96,66 @@
                                             @endif
                                         @endforeach
                                     </select>
+                                    @error('actor.*.id')
+                                        <p class="text-danger">
+                                            The actor field cannot be empty.
+                                        </p>
+                                    @enderror
                                 </div>
                                 <div class="col-6">
-                                    <label class="turunwoi" for="character_{{$i}}" class="form-label">Character Name</label>
-                                    <input value="{{$item->character_name}}" type="text" class="form-control" id="character_{{$i}}" name="character_{{$i}}">
+                                    <label class="turunwoi" for="actor[{{ $loop->index }}][character_name]" class="form-label">Character Name</label>
+                                    <input value="{{$item->character_name}}" type="text" class="form-control" name="actor[{{ $loop->index }}][character_name]">
+                                    @error('actor.*.character_name')
+                                        <p class="text-danger">
+                                            The character name field cannot be empty.
+                                        </p>
+                                    @enderror
                                 </div>
                             </div>
-                            @php
-                                $i++;
-                            @endphp
                         @endforeach
-                        {{-- <div class="row">
-                            <div class="col-6"> --}}
-                                {{-- pengen masukin nama actornya ke inserrt trs pake tag select tapi gimana ya wkwk --}}
-                                {{-- <label class="turunwoi" for="actor/1">Actor</label>
-                                <select name="actor/1" class="form-select" aria-label="Default select example">
-                                    <option selected disabled>Open this selected menu</option>
-                                    @foreach ($movieActor as $a)
-                                        <option value="{{$a->name}}">{{$a->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label class="turunwoi" for="character_1" class="form-label">Character Name</label>
-                                <input type="text" class="form-control" id="character_1" name="character_1">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"> --}}
-                                {{-- pengen masukin nama actornya ke inserrt trs pake tag select tapi gimana ya wkwk --}}
-                                {{-- <label class="turunwoi" for="actor/2">Actor</label>
-                                <select name="actor/2" class="form-select" aria-label="Default select example">
-                                    <option selected disabled>Open this selected menu</option>
-                                    @foreach ($movieActor as $a)
-                                        <option value="{{$a->name}}">{{$a->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label class="turunwoi" for="character_2" class="form-label">Character Name</label>
-                                <input type="text" class="form-control" id="character_2" name="character_2">
-                            </div>
-                        </div> --}}
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="button" id="addMore" class="btn btn-primary">Add More</button>
+                        <button type="button" id="addMore" class="btn btn-danger">Add More</button>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="director" class="form-label">Director</label>
                     <input value="{{$movie->director}}" type="text" class="form-control" id="director" name="director">
                     @error('director')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="date" class="form-label">Release Date</label>
                     <input value="{{date('Y-m-d',strtotime($movie->release_date))}}" type="date" class="form-control" id="date" name="date">
                     @error('date')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="img" class="form-label">Image Url</label>
-                    <input type="file" class="form-control" id="img" name="img">
-                    @error('img')
-                        {{$message}}
+                    <label for="image" class="form-label">Image Url</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                    @error('image')
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="mb-3">
                     <label for="background" class="form-label">Background Url</label>
                     <input type="file" class="form-control" id="background" name="background">
                     @error('background')
-                        {{$message}}
+                        <p class="text-danger">
+                            {{$message}}
+                        </p>
                     @enderror
                 </div>
                 <div class="d-grid">
-                    <input class="btn btn-danger" type="submit"></input>
+                    <input class="btn btn-danger" type="submit">
                 </div>
             </div>
         </form>
@@ -183,13 +165,13 @@
 @section('script')
     <script>
         $(document).ready(function(){
-            var count = {{$i}};
+            var count = {{ $movie->movie_actors->count() }};
             $('#addMore').on('click', function(){
                 $('#container').append(`
                 <div class="row">
                     <div class="col-6">
-                        <label class="turunwoi" for="actor/` + count + `">Actor</label>
-                        <select name="actor/` + count + `" class="form-select" aria-label="Default select example">
+                        <label class="turunwoi" for="actor[` + count + `][id]">Actor</label>
+                        <select name="actor[` + count + `][id]" class="form-select" aria-label="Default select example">
                             <option selected disabled>Open this selected menu</option>
                                 @foreach ($movieActor as $a)
                                     <option value="{{$a->id}}">{{$a->name}}</option>
@@ -197,12 +179,12 @@
                         </select>
                     </div>
                     <div class="col-6">
-                        <label class="turunwoi" for="character_` + count + `" class="form-label">Character Name</label>
-                        <input type="text" class="form-control" id="character_` + count + `"name="character_` + count + `">
+                        <label class="turunwoi" for="actor[` + count + `][character_name]" class="form-label">Character Name</label>
+                        <input type="text" class="form-control" name="actor[` + count + `][character_name]">
                     </div>
                 </div>
             `);
-                count++;
+            count++;
             })
         });
     </script>

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <title>MovieList</title>
     <style>
-
         .movieSpan{
             color: var(--bs-danger);
         }
@@ -21,6 +20,10 @@
 
         .dropdown-menu{
             background: #3f3f3f;
+        }
+
+        .text-muted{
+            color: #aaa!important;
         }
 
         .dropdown-item{
@@ -38,8 +41,6 @@
         }
 
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     @yield('style')
     @yield('jquery')
   </head>

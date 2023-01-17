@@ -23,17 +23,8 @@ class UserController extends Controller
         $this->validate($request, [
             'username' => 'required|min:5|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'min:6',
-                'confirmed',
-                'regex:/[A-Za-z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*#?&]/',
-            ]], [
-                'password.regex' => "The :attribute must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
-            ]
-        );
+            'password' => 'required|alpha_num|min:6|confirmed'
+        ]);
 
         $user = new User();
         $user->username = $request->username;
@@ -79,22 +70,32 @@ class UserController extends Controller
 
     public function updateProfile(Request $request){
         $this->validate($request, [
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required | email:rfc,dns',
-            'dob' => 'required',
+            'date_of_birth' => 'required',
             'phone' => 'required | min:5 | max:13'
         ]);
 
         $currentUserId = Auth::user()->id;
 
         DB::table('users')->where('id', $currentUserId)->update([
-            'username' => $request->nama,
+            'username' => $request->name,
             'email' => $request->email,
-            'dob' => $request->dob,
+            'dob' => $request->date_of_birth,
             'phone' => $request->phone
         ]);
 
+        return redirect('/profile');
+    }
 
+    public function updateProfilePicture(Request $request){
+        $this->validate($request, [
+            'image_URL' => 'required'
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        $user->img_url = $request->image_URL;
+        $user->save();
 
         return redirect('/profile');
     }
